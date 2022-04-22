@@ -19,16 +19,17 @@ struct WebService {
     
     let apiKey = "144ae1233d3463be4dc6dd11edb813c8"
     let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=alerts,minutely&units=metric"
-    let cityURL = "https://geocode.xyz/"
-    
+    let cityURL = "https://api.openweathermap.org/data/2.5/weather?"
+    let cityAPIKey = "144ae1233d3463be4dc6dd11edb813c8"
+
     func getCityName(latitude: Double, longitude: Double) {
-        let urlString = "\(cityURL)/\(String(format:"%.2f", latitude)),\(String(format:"%.2f", longitude))?geoit=json"
+        let urlString = "\(cityURL)lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(cityAPIKey)"
         print(urlString)
         performRequest(with: urlString, for: "getCityName")
     }
     
     func fetchWeather (latitude: Double, longitude: Double) {
-        let urlString = "\(weatherURL)&lat=\(String(format:"%.1f", latitude))&lon=\(String(format:"%.1f", longitude))&appid=\(apiKey)"
+        let urlString = "\(weatherURL)&lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(apiKey)"
         print(urlString)
         performRequest(with: urlString, for: "fetchWeather")
     }

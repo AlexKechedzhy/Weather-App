@@ -5,8 +5,10 @@
 //  Created by Alex173 on 15.04.2022.
 //
 
+
 import UIKit
 import CoreLocation
+
 
 class ForecastViewController: UIViewController {
     
@@ -23,6 +25,11 @@ class ForecastViewController: UIViewController {
     
     var webService = WebService()
     let locationManager = CLLocationManager()
+    var currentLatitude: Double?
+    var currentLongitude: Double?
+    var selectedMapLatitude: Double?
+    var selectedMapLongitude: Double?
+    
     var weatherData: WeatherData? {
         didSet {
             DispatchQueue.main.async {
@@ -36,30 +43,36 @@ class ForecastViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         
         setupCollectionView()
         setupTableView()
-        
-        locationManager.delegate = self
         webService.delegate = self
         
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+        if selectedMapLatitude != nil && selectedMapLongitude != nil {
+            getWeatherData(lat: selectedMapLatitude!, lon: selectedMapLongitude!)
+        } else {
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.requestLocation()
+        }
+        
     }
     
-    
+    //MARK: - UIButtons' Methods
+
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-        
+        performSegue(withIdentifier: "searchViewController", sender: self)
     }
     
     @IBAction func mapButtonPressed(_ sender: UIButton) {
-        
+        performSegue(withIdentifier: "mapViewController", sender: self)
     }
 }
-
-
-//MARK: - UIButtons' Methods
-
 
 
 
@@ -72,12 +85,9 @@ extension ForecastViewController: CLLocationManagerDelegate {
         print("Location got updated")
         if let location = locations.last {
             locationManager.stopUpdatingLocation()
-            let lat = location.coordinate.latitude
-            let lon = location.coordinate.longitude
-            print(lat)
-            print(lon)
-            webService.fetchWeather(latitude: lat, longitude: lon)
-            webService.getCityName(latitude: lat, longitude: lon)
+            currentLatitude = location.coordinate.latitude
+            currentLongitude = location.coordinate.longitude
+            getWeatherData(lat: currentLatitude!, lon: currentLongitude!)
             
         }
     }
@@ -94,7 +104,7 @@ extension ForecastViewController: WebServiceDelegate {
     func didUpdateLocation(_ location: CityData) {
         DispatchQueue.main.async {
             self.cityData = location
-            self.cityNameLabel.text = self.cityData?.city
+            self.cityNameLabel.text = self.cityData?.name
         }
     }
     
@@ -102,43 +112,6 @@ extension ForecastViewController: WebServiceDelegate {
         
         DispatchQueue.main.async { [self] in
             self.weatherData = weather
-            print("=============================")
-            let date = Date(timeIntervalSince1970: TimeInterval((self.weatherData?.current.dt)!))
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = DateFormatter.Style.full
-            dateFormatter.dateFormat = "E, dd MMMM"
-            dateFormatter.timeZone = .current
-            let currentDate = dateFormatter.string(from: date)
-            print("Current Date: \(currentDate)")
-            print("Min/Max temp: \((self.weatherData?.daily[0].temp.min)!) / \((self.weatherData?.daily[0].temp.max)!)")
-            print("Current humidity: \((self.weatherData?.daily[0].humidity)!)%")
-            print("Current wind: \((self.weatherData?.current.wind_speed)!)m/s \((self.weatherData?.current.wind_deg)!)Deg")
-            print("=============================")
-            let hourlyWeather = self.weatherData!.hourly
-            for item in 0..<24 {
-                let time = hourlyWeather[item]
-                let date = Date(timeIntervalSince1970: TimeInterval(time.dt))
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = DateFormatter.Style.full
-                dateFormatter.dateFormat = "HH"
-                dateFormatter.timeZone = .current
-                let hourly = dateFormatter.string(from: date)
-                print("\(hourly) -- \(time.temp) -- \(time.weather[0].description)")
-            }
-            print("=============================")
-            let dailyWeather = self.weatherData!.daily
-            for item in 1..<6 {
-                let snap = dailyWeather[item]
-                let date = Date(timeIntervalSince1970: TimeInterval(snap.dt))
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = DateFormatter.Style.full
-                dateFormatter.dateFormat = "E"
-                dateFormatter.timeZone = .current
-                let daily = dateFormatter.string(from: date)
-                print("\(daily) -- \(snap.temp) -- \(snap.weather[0].description)")
-            }
-            print("=============================")
-            
             self.currentWeatherImage.image = UIImage(systemName: self.weatherModel.getImageSystemName(conditionId: Int((self.weatherData?.current.weather[0].id)!)))
             let minTemp = String(Int((self.weatherData?.daily[0].temp.min)!))
             let maxTemp = String(Int((self.weatherData?.daily[0].temp.max)!))
@@ -153,6 +126,12 @@ extension ForecastViewController: WebServiceDelegate {
         print("FAILED WITH ERROR: \(error)")
     }
     
+// MARK: - Webservice Methods
+    
+    func getWeatherData(lat: Double, lon: Double) {
+        webService.fetchWeather(latitude: lat, longitude: lon)
+        webService.getCityName(latitude: lat, longitude: lon)
+    }
 }
 //MARK: - CollectionView Methods
 

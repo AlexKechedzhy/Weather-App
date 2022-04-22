@@ -152,6 +152,7 @@
                                         <buttonConfiguration key="configuration" style="plain" image="ic_my_location" imagePadding="0.0"/>
                                         <connections>
                                             <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zjr-Qs-u6s"/>
+                                            <segue destination="LO4-zi-AS4" kind="modal" identifier="mapViewController" modalPresentationStyle="fullScreen" id="AfR-he-qtz"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="seT-Pl-0mX">
@@ -164,9 +165,10 @@
                                         <buttonConfiguration key="configuration" style="plain" image="ic_search"/>
                                         <connections>
                                             <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HpV-3q-1bU"/>
+                                            <segue destination="G8M-Jm-LuG" kind="presentation" identifier="searchViewController" modalPresentationStyle="fullScreen" id="pF5-Cv-Ddd"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="htJ-oe-xAr">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" id="htJ-oe-xAr">
                                         <rect key="frame" x="70" y="20" width="217" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
@@ -229,6 +231,7 @@
                             <constraint firstItem="YsL-Ut-2NK" firstAttribute="top" secondItem="Y4R-fz-jZU" secondAttribute="bottom" id="wnM-ye-46G"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="ASX-uU-7dp"/>
                     <connections>
                         <outlet property="cityNameLabel" destination="htJ-oe-xAr" id="4Dx-ij-VoV"/>
                         <outlet property="collectionView" destination="Y4R-fz-jZU" id="X4p-Ah-ASn"/>
@@ -242,7 +245,81 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="44.927536231884062" y="83.705357142857139"/>
+            <point key="canvasLocation" x="955.07246376811599" y="83.705357142857139"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="PEA-bi-8UE">
+            <objects>
+                <viewController id="LO4-zi-AS4" customClass="MapViewController" customModule="Weather_Test_Task" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ghg-xI-McD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZeI-cY-9dg">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-dz-aKc">
+                                <rect key="frame" x="107" y="811" width="200" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="yhn-Kb-Wdn"/>
+                                </constraints>
+                                <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Get weather"/>
+                                <connections>
+                                    <action selector="getWeatherButtonPressed:" destination="LO4-zi-AS4" eventType="touchUpInside" id="Cmc-qi-WBZ"/>
+                                    <segue destination="BYZ-38-t0r" kind="modal" identifier="mapToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="eaW-WN-Vtb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="syD-7N-f1l"/>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.62352941179999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZeI-cY-9dg" firstAttribute="top" secondItem="syD-7N-f1l" secondAttribute="top" id="1di-Yp-YV3"/>
+                            <constraint firstItem="ZeI-cY-9dg" firstAttribute="leading" secondItem="syD-7N-f1l" secondAttribute="leading" id="1f3-P1-lsO"/>
+                            <constraint firstItem="syD-7N-f1l" firstAttribute="trailing" secondItem="ZeI-cY-9dg" secondAttribute="trailing" id="5iq-KR-tmZ"/>
+                            <constraint firstItem="syD-7N-f1l" firstAttribute="bottom" secondItem="nhK-dz-aKc" secondAttribute="bottom" constant="20" id="XuT-J1-yGw"/>
+                            <constraint firstItem="syD-7N-f1l" firstAttribute="bottom" secondItem="ZeI-cY-9dg" secondAttribute="bottom" id="nfa-Ib-jnQ"/>
+                            <constraint firstItem="nhK-dz-aKc" firstAttribute="centerX" secondItem="Ghg-xI-McD" secondAttribute="centerX" id="uGX-hk-0ln"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="diE-2L-piD"/>
+                    <connections>
+                        <outlet property="getWeatherButton" destination="nhK-dz-aKc" id="sJn-A3-8Lu"/>
+                        <outlet property="mapView" destination="ZeI-cY-9dg" id="jio-0t-vnq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="194" y="810"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="2nQ-3F-GRe">
+            <objects>
+                <viewController id="G8M-Jm-LuG" customClass="SearchViewController" customModule="Weather_Test_Task" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9D2-jq-HVj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SearchViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqo-cu-HAQ">
+                                <rect key="frame" x="23" y="424" width="368" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hAQ-J0-UGM"/>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.62352941179999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="hqo-cu-HAQ" firstAttribute="centerX" secondItem="9D2-jq-HVj" secondAttribute="centerX" id="Iuh-BN-Ece"/>
+                            <constraint firstItem="hqo-cu-HAQ" firstAttribute="centerY" secondItem="9D2-jq-HVj" secondAttribute="centerY" id="LcV-Dw-9GR"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="YtA-Ii-5mE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uGt-u5-CPm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1942.0289855072465" y="83.705357142857139"/>
         </scene>
     </scenes>
     <resources>

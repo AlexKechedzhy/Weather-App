@@ -8,5 +8,5 @@
 import Foundation
 
 struct CityData: Decodable {
-    let city: String
+    let name: String
 }
