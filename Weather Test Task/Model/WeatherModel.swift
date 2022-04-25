@@ -12,45 +12,45 @@ struct WeatherModel {
     func getImageSystemName(conditionId: Int) -> String {
         switch conditionId {
         case 200...299:
-            return "cloud.bolt.rain"
+            return "ic_white_day_thunder"
         case 300...399:
-            return "cloud.drizzle"
+            return "ic_white_day_rain"
         case 500...599:
-            return "cloud.rain"
+            return "ic_white_day_shower"
         case 600...699:
             return "cloud.snow"
         case 700...799:
             return "cloud.fog"
         case 800:
-            return "sun.max"
+            return "ic_white_day_bright"
         case 801...810:
-            return "cloud"
+            return "ic_white_day_cloudy"
         default:
-            return "cloud"
+            return "ic_white_day_cloudy"
         }
     }
         func getWindDirectionName(windDirection: Int) -> String {
             switch windDirection {
             case 0...22:
-                return "arrow.down"
+                return "icon_wind_s"
             case 23...67:
-                return "arrow.down.left"
+                return "icon_wind_ws"
             case 68...112:
-                return "arrow.left"
+                return "icon_wind_w"
             case 113...157:
-                return "arrow.up.left"
+                return "icon_wind_wn"
             case 158...202:
-                return "arrow.up"
+                return "icon_wind_n"
             case 203...247:
-                return "arrow.up.right"
+                return "icon_wind_ne"
             case 248...292:
-                return "arrow.right"
+                return "icon_wind_e"
             case 293...337:
-                return "arrow.down.right"
+                return "icon_wind_se"
             case 337...359:
-                return "arrow.down"
+                return "icon_wind_s"
             default:
-            return "arrow.down"
+            return "icon_wind_sn"
             }
         }
 }

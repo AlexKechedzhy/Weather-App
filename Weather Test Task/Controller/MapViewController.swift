@@ -51,6 +51,7 @@ class MapViewController: UIViewController {
         
         if segue.identifier == "mapToForecast" {
             let destinationVC = segue.destination as! ForecastViewController
+            destinationVC.weatherRequestSource = .fromMapView
             destinationVC.selectedMapLatitude = selectedLatitude
             destinationVC.selectedMapLongitude = selectedLongitude
         }

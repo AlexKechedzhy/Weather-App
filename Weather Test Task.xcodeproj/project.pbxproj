@@ -12,13 +12,17 @@
 		341B021F280EC40D00DCDCF0 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B021E280EC40D00DCDCF0 /* CityData.swift */; };
 		341B022128103A4100DCDCF0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B022028103A4100DCDCF0 /* SearchViewController.swift */; };
 		341B022328103A8200DCDCF0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B022228103A8200DCDCF0 /* MapViewController.swift */; };
+		341F093F2812DE5C003C6B46 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341F093D2812DE5C003C6B46 /* SuggestionTableViewCell.swift */; };
+		341F09402812DE5C003C6B46 /* SuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341F093E2812DE5C003C6B46 /* SuggestionTableViewCell.xib */; };
+		341F09432812EBEA003C6B46 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341F09422812EBEA003C6B46 /* SearchService.swift */; };
+		341F09472812EF68003C6B46 /* SearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341F09462812EF68003C6B46 /* SearchData.swift */; };
 		343C4157280970F9001812B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C4156280970F9001812B9 /* AppDelegate.swift */; };
 		343C4159280970F9001812B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C4158280970F9001812B9 /* SceneDelegate.swift */; };
 		343C415B280970F9001812B9 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C415A280970F9001812B9 /* ForecastViewController.swift */; };
 		343C415E280970F9001812B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 343C415C280970F9001812B9 /* Main.storyboard */; };
 		343C4160280970FB001812B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 343C415F280970FB001812B9 /* Assets.xcassets */; };
 		343C4163280970FB001812B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 343C4161280970FB001812B9 /* LaunchScreen.storyboard */; };
-		343C417128097150001812B9 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C417028097150001812B9 /* Webservice.swift */; };
+		343C417128097150001812B9 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C417028097150001812B9 /* WebService.swift */; };
 		343C417328097F63001812B9 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C417228097F63001812B9 /* WeatherData.swift */; };
 		343C4175280D6617001812B9 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C4174280D6617001812B9 /* WeatherModel.swift */; };
 		343C4178280D7F84001812B9 /* HourlyWeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343C4176280D7F84001812B9 /* HourlyWeatherCollectionViewCell.swift */; };
@@ -31,6 +35,10 @@
 		341B021E280EC40D00DCDCF0 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
 		341B022028103A4100DCDCF0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		341B022228103A8200DCDCF0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		341F093D2812DE5C003C6B46 /* SuggestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTableViewCell.swift; sourceTree = "<group>"; };
+		341F093E2812DE5C003C6B46 /* SuggestionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SuggestionTableViewCell.xib; sourceTree = "<group>"; };
+		341F09422812EBEA003C6B46 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
+		341F09462812EF68003C6B46 /* SearchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchData.swift; sourceTree = "<group>"; };
 		343C4153280970F9001812B9 /* Weather Test Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather Test Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		343C4156280970F9001812B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		343C4158280970F9001812B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,7 +47,7 @@
 		343C415F280970FB001812B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		343C4162280970FB001812B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		343C4164280970FB001812B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		343C417028097150001812B9 /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
+		343C417028097150001812B9 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		343C417228097F63001812B9 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		343C4174280D6617001812B9 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		343C4176280D7F84001812B9 /* HourlyWeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -64,6 +72,15 @@
 				341B021A280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.xib */,
 			);
 			path = DailyWeatherTableViewCell;
+			sourceTree = "<group>";
+		};
+		341F09412812DE72003C6B46 /* SuggestionTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				341F093D2812DE5C003C6B46 /* SuggestionTableViewCell.swift */,
+				341F093E2812DE5C003C6B46 /* SuggestionTableViewCell.xib */,
+			);
+			path = SuggestionTableViewCell;
 			sourceTree = "<group>";
 		};
 		343C414A280970F9001812B9 = {
@@ -100,8 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				343C417228097F63001812B9 /* WeatherData.swift */,
-				343C4174280D6617001812B9 /* WeatherModel.swift */,
 				341B021E280EC40D00DCDCF0 /* CityData.swift */,
+				341F09462812EF68003C6B46 /* SearchData.swift */,
+				343C4174280D6617001812B9 /* WeatherModel.swift */,
 				343C416F28097140001812B9 /* Services */,
 			);
 			path = Model;
@@ -112,6 +130,7 @@
 			children = (
 				341B021D280DAF1500DCDCF0 /* DailyWeatherTableViewCell */,
 				343C417A280D82F9001812B9 /* HourlyWeatherCollectionViewCell */,
+				341F09412812DE72003C6B46 /* SuggestionTableViewCell */,
 				343C415C280970F9001812B9 /* Main.storyboard */,
 				343C4161280970FB001812B9 /* LaunchScreen.storyboard */,
 			);
@@ -131,7 +150,8 @@
 		343C416F28097140001812B9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				343C417028097150001812B9 /* Webservice.swift */,
+				343C417028097150001812B9 /* WebService.swift */,
+				341F09422812EBEA003C6B46 /* SearchService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -206,6 +226,7 @@
 				341B021C280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.xib in Resources */,
 				343C4163280970FB001812B9 /* LaunchScreen.storyboard in Resources */,
 				343C4160280970FB001812B9 /* Assets.xcassets in Resources */,
+				341F09402812DE5C003C6B46 /* SuggestionTableViewCell.xib in Resources */,
 				343C4179280D7F84001812B9 /* HourlyWeatherCollectionViewCell.xib in Resources */,
 				343C415E280970F9001812B9 /* Main.storyboard in Resources */,
 			);
@@ -218,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				341F09432812EBEA003C6B46 /* SearchService.swift in Sources */,
 				341B022328103A8200DCDCF0 /* MapViewController.swift in Sources */,
 				341B022128103A4100DCDCF0 /* SearchViewController.swift in Sources */,
 				341B021B280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.swift in Sources */,
@@ -226,9 +248,11 @@
 				341B021F280EC40D00DCDCF0 /* CityData.swift in Sources */,
 				343C4178280D7F84001812B9 /* HourlyWeatherCollectionViewCell.swift in Sources */,
 				343C4157280970F9001812B9 /* AppDelegate.swift in Sources */,
-				343C417128097150001812B9 /* Webservice.swift in Sources */,
+				341F09472812EF68003C6B46 /* SearchData.swift in Sources */,
+				343C417128097150001812B9 /* WebService.swift in Sources */,
 				343C4175280D6617001812B9 /* WeatherModel.swift in Sources */,
 				343C4159280970F9001812B9 /* SceneDelegate.swift in Sources */,
+				341F093F2812DE5C003C6B46 /* SuggestionTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +402,8 @@
 				DEVELOPMENT_TEAM = Q4KWB3FWZV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Weather Test Task/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Weather Test Task";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide access to your location to track weather around you";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -407,6 +433,8 @@
 				DEVELOPMENT_TEAM = Q4KWB3FWZV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Weather Test Task/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Weather Test Task";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide access to your location to track weather around you";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
