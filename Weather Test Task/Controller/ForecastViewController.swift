@@ -18,14 +18,12 @@ class ForecastViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentWeatherImage: UIImageView!
-    
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var todayDateLabel: UILabel!
     @IBOutlet weak var currentMinMaxTempLabel: UILabel!
     @IBOutlet weak var currentAverageHumidityLabel: UILabel!
     @IBOutlet weak var currentWindSpeedAndDirLabel: UILabel!
     @IBOutlet weak var currentWindDirectionImage: UIImageView!
-    
     
     var webService = WebService()
     var weatherRequestSource: WeatherRequestSource = .byCurrentLocation
@@ -36,7 +34,8 @@ class ForecastViewController: UIViewController {
     var selectedMapLongitude: Double?
     var selectedCityName: String?
     
-    
+    var cityData: CityData?
+    let weatherModel = WeatherModel()
     var weatherData: WeatherData? {
         didSet {
             DispatchQueue.main.async {
@@ -45,19 +44,15 @@ class ForecastViewController: UIViewController {
             }
         }
     }
-    var cityData: CityData?
-    let weatherModel = WeatherModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        setupCollectionView()
+        setupTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        setupCollectionView()
-        setupTableView()
         webService.delegate = self
         chooseWeatherRequest()
     }
@@ -68,7 +63,6 @@ class ForecastViewController: UIViewController {
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
-            
         case .fromMapView:
             if let lat = selectedMapLatitude, let lon = selectedMapLongitude  {
                 getWeatherByCoordinates(lat: lat, lon: lon)
@@ -92,8 +86,6 @@ class ForecastViewController: UIViewController {
 }
 
 
-
-
 // MARK: - CLLocationManagerDelegate Methods
 
 extension ForecastViewController: CLLocationManagerDelegate {
@@ -108,6 +100,14 @@ extension ForecastViewController: CLLocationManagerDelegate {
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        presentFailureAlert(title: "Oops! Failer to get your location!", message: "Please check geolocation options in Settings.")
+        if locationManager.authorizationStatus == .denied {
+            locationManager.requestWhenInUseAuthorization()
+        } else if locationManager.authorizationStatus == .restricted {
+            locationManager.requestWhenInUseAuthorization()
+        } else if locationManager.authorizationStatus == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
         print(error)
     }
 }
@@ -124,8 +124,6 @@ extension ForecastViewController: WebServiceDelegate {
             self.getWeatherByCoordinates(lat: location.coord.lat, lon: location.coord.lon)
         }
     }
-    
-    
     
     func didGetCityName(_ location: CityData) {
         DispatchQueue.main.async {
@@ -219,6 +217,9 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dailyTableViewCell", for: indexPath) as! DailyWeatherTableViewCell
+        cell.dayLabel.textColor = UIColor(named: "Black")
+        cell.temperatureLabel.textColor = UIColor(named: "Black")
+        cell.weatherImage.tintColor = UIColor(named: "Black")
         if let _weatherData = weatherData {
             let dailyData = _weatherData.daily[indexPath.row]
 
@@ -240,14 +241,38 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.reloadData()
+        tableView.deselectAllRows(animated: true)
+        
+        guard let tableViewCell = tableView.cellForRow(at: indexPath) else { return }
+        let cell = tableViewCell as! DailyWeatherTableViewCell
+        
+        
+        cell.dayLabel.textColor = UIColor(named: "LightBlue")
+        cell.temperatureLabel.textColor = UIColor(named: "LightBlue")
+        cell.weatherImage.tintColor = UIColor(named: "LightBlue")
+        cell.backView.layer.shadowColor = UIColor.gray.cgColor
+        cell.backView.layer.masksToBounds = false
+        cell.backView.layer.shadowRadius = 10
+        cell.backView.layer.shadowOpacity = 1.0
+        
+    }
+    
     private func setupTableView() {
         tableView.register(UINib(nibName: "DailyWeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "dailyTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
 }
 
+extension UITableView {
+    func deselectAllRows(animated: Bool) {
+        guard let selectedRows = indexPathsForSelectedRows else { return }
+        for indexPath in selectedRows { deselectRow(at: indexPath, animated: animated) }
+    }
+}
+//MARK: - FailureAlert Methods
 extension ForecastViewController {
     private func presentFailureAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -258,5 +283,6 @@ extension ForecastViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+
 
 

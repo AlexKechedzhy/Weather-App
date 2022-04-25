@@ -12,6 +12,7 @@ import CoreLocation
 class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var backButtonView: UIView!
     @IBOutlet weak var getWeatherButton: UIButton!
     let locationManager = CLLocationManager()
     let pin = MKPointAnnotation()
@@ -20,9 +21,10 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        prepareUI()
         setupLocationManager()
         setupGestureRecognizer()
-        getWeatherButton.isHidden = true
+        
     }
     
     private func setupLocationManager() {
@@ -40,7 +42,10 @@ class MapViewController: UIViewController {
         mapView.addAnnotation(pin)
     }
     
-    
+    private func prepareUI() {
+        getWeatherButton.isHidden = true
+        backButtonView.layer.cornerRadius = 25
+    }
     
     func centerScreen(location: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion(center: location, latitudinalMeters: 100000, longitudinalMeters: 100000)
@@ -62,13 +67,16 @@ class MapViewController: UIViewController {
     @IBAction func getWeatherButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "mapToForecast", sender: self)
     }
+    
+    @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "backToForecast", sender: self)
+    }
 }
 
 
 //MARK: - CLLocationManagerDelegate Methods
 extension MapViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last?.coordinate {
             locationManager.stopUpdatingLocation()
             centerScreen(location: location)
@@ -85,7 +93,6 @@ extension MapViewController: UIGestureRecognizerDelegate {
         if sender.state == .ended {
             let touchLocation = sender.location(in: mapView)
             let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
-            print("Tapped at coordinates: \(locationCoordinate.latitude) - \(locationCoordinate.longitude)")
             pin.coordinate = locationCoordinate
             getWeatherButton.isHidden = false
             selectedLatitude = locationCoordinate.latitude

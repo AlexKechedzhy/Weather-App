@@ -14,6 +14,7 @@ protocol WebServiceDelegate {
     func didGetCoordinates(_ location: CityData)
 }
 
+
 struct WebService {
     
     var delegate: WebServiceDelegate?
@@ -25,7 +26,6 @@ struct WebService {
 
     func getCityName(latitude: Double, longitude: Double) {
         let urlString = "\(cityURL)lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(cityAPIKey)"
-        print(urlString)
         performRequest(with: urlString, for: "getCityName")
     }
     

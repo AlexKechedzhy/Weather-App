@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="349.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Li-CK-cVR">
-                                        <rect key="frame" x="30" y="108.5" width="354" height="209.5"/>
+                                        <rect key="frame" x="30" y="112.5" width="354" height="209.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6UK-eM-X9D">
                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="209.5"/>
@@ -28,17 +29,17 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="177" height="209.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_white_day_thunder" translatesAutoresizingMaskIntoConstraints="NO" id="QVG-PK-LrR">
-                                                                <rect key="frame" x="28" y="64.5" width="145" height="145"/>
-                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <rect key="frame" x="-4" y="64.5" width="181" height="145"/>
+                                                                <color key="tintColor" name="White"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="145" id="Ird-rA-JQH"/>
-                                                                    <constraint firstAttribute="width" secondItem="QVG-PK-LrR" secondAttribute="height" multiplier="1:1" id="ZzV-P6-FRA"/>
+                                                                    <constraint firstAttribute="width" secondItem="QVG-PK-LrR" secondAttribute="height" multiplier="1:0.8" id="ZzV-P6-FRA"/>
                                                                 </constraints>
                                                             </imageView>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="QVG-PK-LrR" secondAttribute="trailing" constant="4" id="LNv-5O-brC"/>
+                                                            <constraint firstAttribute="trailing" secondItem="QVG-PK-LrR" secondAttribute="trailing" id="LNv-5O-brC"/>
                                                             <constraint firstAttribute="bottom" secondItem="QVG-PK-LrR" secondAttribute="bottom" id="d4x-Iw-Kic"/>
                                                         </constraints>
                                                     </view>
@@ -52,8 +53,8 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="160" height="33.5"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_temp" translatesAutoresizingMaskIntoConstraints="NO" id="azz-7T-Eol">
-                                                                                <rect key="frame" x="10" y="3.5" width="26" height="26"/>
-                                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <rect key="frame" x="10" y="4" width="26" height="26"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="26" id="4mC-u3-KkL"/>
                                                                                     <constraint firstAttribute="height" constant="26" id="nJu-nW-5FU"/>
@@ -62,7 +63,7 @@
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ncn-4o-gCk" userLabel="MinMaxTemperature">
                                                                                 <rect key="frame" x="46" y="3.5" width="101" height="26.5"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="White"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                         </subviews>
@@ -77,11 +78,11 @@
                                                                         </constraints>
                                                                     </view>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0NK-om-szq" userLabel="HumidityView">
-                                                                        <rect key="frame" x="0.0" y="33.5" width="160" height="33"/>
+                                                                        <rect key="frame" x="0.0" y="33.5" width="160" height="33.5"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_humidity" translatesAutoresizingMaskIntoConstraints="NO" id="dwi-ob-3vH">
                                                                                 <rect key="frame" x="10" y="3.5" width="26" height="26"/>
-                                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="26" id="MEl-51-lLK"/>
                                                                                     <constraint firstAttribute="width" constant="26" id="N9h-Sm-0Sy"/>
@@ -89,6 +90,7 @@
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ard-1j-7ms" userLabel="Humidity">
                                                                                 <rect key="frame" x="46" y="16.5" width="0.0" height="0.0"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -104,25 +106,26 @@
                                                                         </constraints>
                                                                     </view>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i76-XZ-Ong" userLabel="WindView">
-                                                                        <rect key="frame" x="0.0" y="66.5" width="160" height="33.5"/>
+                                                                        <rect key="frame" x="0.0" y="67" width="160" height="33"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_wind" translatesAutoresizingMaskIntoConstraints="NO" id="G1u-9j-LjZ">
-                                                                                <rect key="frame" x="10" y="4" width="26" height="26"/>
-                                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <rect key="frame" x="10" y="3.5" width="26" height="26"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="26" id="Rnx-a1-3GX"/>
                                                                                     <constraint firstAttribute="width" constant="26" id="ncQ-1z-oFT"/>
                                                                                 </constraints>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANN-bV-41B" userLabel="Wind">
-                                                                                <rect key="frame" x="46" y="17" width="0.0" height="0.0"/>
+                                                                                <rect key="frame" x="46" y="16.5" width="0.0" height="0.0"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wind_e" translatesAutoresizingMaskIntoConstraints="NO" id="Hkk-94-Flf">
-                                                                                <rect key="frame" x="51" y="4" width="26" height="26"/>
-                                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <rect key="frame" x="51" y="3.5" width="26" height="26"/>
+                                                                                <color key="tintColor" name="White"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="26" id="IY2-wL-f5Z"/>
                                                                                     <constraint firstAttribute="height" constant="26" id="deH-ix-cA2"/>
@@ -167,7 +170,7 @@
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_place" translatesAutoresizingMaskIntoConstraints="NO" id="KEq-pw-Tt9" userLabel="City Name Icon">
                                         <rect key="frame" x="20" y="20" width="30" height="30"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="White"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="0dT-WZ-h79"/>
                                             <constraint firstAttribute="width" constant="30" id="KPs-CD-FUa"/>
@@ -179,6 +182,7 @@
                                             <constraint firstAttribute="height" constant="40" id="I0F-i1-gbl"/>
                                             <constraint firstAttribute="width" constant="40" id="ON8-8h-ahW"/>
                                         </constraints>
+                                        <color key="tintColor" name="White"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="ic_my_location" imagePadding="0.0"/>
                                         <connections>
@@ -188,12 +192,16 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="seT-Pl-0mX">
                                         <rect key="frame" x="317" y="15" width="40" height="40"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="8Uu-P9-Cju"/>
                                             <constraint firstAttribute="height" constant="40" id="qtO-Vw-4cp"/>
                                         </constraints>
+                                        <color key="tintColor" name="White"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="ic_search"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="ic_search">
+                                            <color key="baseForegroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
                                         <connections>
                                             <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HpV-3q-1bU"/>
                                             <segue destination="G8M-Jm-LuG" kind="presentation" identifier="searchViewController" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="diJ-rd-jV8"/>
@@ -206,21 +214,21 @@
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="210" id="dLn-0E-kTE"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="White"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ntj-qE-dao">
-                                        <rect key="frame" x="0.0" y="318" width="414" height="31.5"/>
+                                        <rect key="frame" x="0.0" y="322" width="414" height="27.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IXC-Tt-kea">
-                                        <rect key="frame" x="20" y="65" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="24" y="65" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="White"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" name="DarkBlue"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Z0W-Fz-Hk3" secondAttribute="trailing" constant="12" id="163-Kr-obY"/>
                                     <constraint firstItem="3Li-CK-cVR" firstAttribute="leading" secondItem="Ysg-jT-I6D" secondAttribute="leading" constant="30" id="4RO-vn-agt"/>
@@ -232,20 +240,20 @@
                                     <constraint firstItem="IXC-Tt-kea" firstAttribute="top" secondItem="KEq-pw-Tt9" secondAttribute="bottom" constant="15" id="HFr-TI-E5r"/>
                                     <constraint firstAttribute="trailing" secondItem="ntj-qE-dao" secondAttribute="trailing" id="HJk-AZ-ciX"/>
                                     <constraint firstAttribute="trailing" secondItem="3Li-CK-cVR" secondAttribute="trailing" constant="30" id="S6k-hL-tDe"/>
-                                    <constraint firstItem="IXC-Tt-kea" firstAttribute="leading" secondItem="Ysg-jT-I6D" secondAttribute="leading" constant="20" id="XO1-Xt-K4z"/>
+                                    <constraint firstItem="IXC-Tt-kea" firstAttribute="leading" secondItem="Ysg-jT-I6D" secondAttribute="leading" constant="24" id="XO1-Xt-K4z"/>
                                     <constraint firstItem="htJ-oe-xAr" firstAttribute="top" secondItem="Ysg-jT-I6D" secondAttribute="top" constant="20" id="XTM-D2-mO3"/>
                                     <constraint firstItem="3Li-CK-cVR" firstAttribute="height" secondItem="Ysg-jT-I6D" secondAttribute="height" multiplier="0.6" id="e46-aW-0c1"/>
                                     <constraint firstItem="3Li-CK-cVR" firstAttribute="centerX" secondItem="Ysg-jT-I6D" secondAttribute="centerX" id="iSs-KK-2HB"/>
                                     <constraint firstItem="htJ-oe-xAr" firstAttribute="leading" secondItem="KEq-pw-Tt9" secondAttribute="trailing" constant="15" id="jbG-nH-jrl"/>
                                     <constraint firstItem="ntj-qE-dao" firstAttribute="leading" secondItem="Ysg-jT-I6D" secondAttribute="leading" id="t3g-8m-jXe"/>
-                                    <constraint firstItem="ntj-qE-dao" firstAttribute="height" secondItem="3Li-CK-cVR" secondAttribute="height" multiplier="0.15" id="u9l-ZM-uab"/>
+                                    <constraint firstItem="ntj-qE-dao" firstAttribute="height" secondItem="3Li-CK-cVR" secondAttribute="height" multiplier="0.13" id="u9l-ZM-uab"/>
                                     <constraint firstItem="KEq-pw-Tt9" firstAttribute="leading" secondItem="Ysg-jT-I6D" secondAttribute="leading" constant="20" id="x1V-MY-yBF"/>
                                     <constraint firstItem="ntj-qE-dao" firstAttribute="top" secondItem="3Li-CK-cVR" secondAttribute="bottom" id="yGY-X2-X9b"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Y4R-fz-jZU" userLabel="HourlyWeather CollectionView">
                                 <rect key="frame" x="0.0" y="393.5" width="414" height="135"/>
-                                <color key="backgroundColor" red="0.3529411764705882" green="0.62352941176470589" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" name="LightBlue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="135" id="mdi-IV-8hJ"/>
                                 </constraints>
@@ -264,7 +272,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="DarkBlue"/>
                         <constraints>
                             <constraint firstItem="Ysg-jT-I6D" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.39" id="7fx-Gr-90m"/>
                             <constraint firstItem="Ysg-jT-I6D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8pU-tj-ePc"/>
@@ -308,11 +316,13 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-dz-aKc">
-                                <rect key="frame" x="107" y="811" width="200" height="31"/>
+                                <rect key="frame" x="97" y="802" width="220" height="40"/>
+                                <color key="backgroundColor" name="DarkBlue"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="yhn-Kb-Wdn"/>
+                                    <constraint firstAttribute="height" constant="40" id="UEm-GS-Nck"/>
+                                    <constraint firstAttribute="width" constant="220" id="yhn-Kb-Wdn"/>
                                 </constraints>
-                                <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" name="DarkBlue"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Get weather"/>
                                 <connections>
@@ -320,13 +330,38 @@
                                     <segue destination="BYZ-38-t0r" kind="presentation" identifier="mapToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="BmN-n0-D7i"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U1D-zK-jT5">
+                                <rect key="frame" x="15" y="59" width="50" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqa-NO-HTG">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="ic_back"/>
+                                        <connections>
+                                            <action selector="backToForecastButtonPressed:" destination="LO4-zi-AS4" eventType="touchUpInside" id="rNA-2F-1b9"/>
+                                            <segue destination="BYZ-38-t0r" kind="presentation" identifier="backToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="XR7-e8-T6v"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="DarkBlue"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="jqa-NO-HTG" secondAttribute="bottom" id="03F-m2-pkh"/>
+                                    <constraint firstAttribute="trailing" secondItem="jqa-NO-HTG" secondAttribute="trailing" constant="4" id="Kqe-Kr-6mB"/>
+                                    <constraint firstItem="jqa-NO-HTG" firstAttribute="leading" secondItem="U1D-zK-jT5" secondAttribute="leading" id="OhW-KF-Mse"/>
+                                    <constraint firstAttribute="height" constant="50" id="QIJ-Sr-CkJ"/>
+                                    <constraint firstAttribute="width" constant="50" id="bif-fp-d5c"/>
+                                    <constraint firstItem="jqa-NO-HTG" firstAttribute="top" secondItem="U1D-zK-jT5" secondAttribute="top" id="dfT-eL-TM2"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="syD-7N-f1l"/>
-                        <color key="backgroundColor" red="0.35294117650000001" green="0.62352941179999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="DarkBlue"/>
                         <constraints>
+                            <constraint firstItem="U1D-zK-jT5" firstAttribute="top" secondItem="syD-7N-f1l" secondAttribute="top" constant="15" id="0JO-Ae-IVz"/>
                             <constraint firstItem="ZeI-cY-9dg" firstAttribute="top" secondItem="syD-7N-f1l" secondAttribute="top" id="1di-Yp-YV3"/>
                             <constraint firstItem="ZeI-cY-9dg" firstAttribute="leading" secondItem="syD-7N-f1l" secondAttribute="leading" id="1f3-P1-lsO"/>
                             <constraint firstItem="syD-7N-f1l" firstAttribute="trailing" secondItem="ZeI-cY-9dg" secondAttribute="trailing" id="5iq-KR-tmZ"/>
+                            <constraint firstItem="U1D-zK-jT5" firstAttribute="leading" secondItem="syD-7N-f1l" secondAttribute="leading" constant="15" id="8f6-zt-8hs"/>
                             <constraint firstItem="syD-7N-f1l" firstAttribute="bottom" secondItem="nhK-dz-aKc" secondAttribute="bottom" constant="20" id="XuT-J1-yGw"/>
                             <constraint firstItem="syD-7N-f1l" firstAttribute="bottom" secondItem="ZeI-cY-9dg" secondAttribute="bottom" id="nfa-Ib-jnQ"/>
                             <constraint firstItem="nhK-dz-aKc" firstAttribute="centerX" secondItem="Ghg-xI-McD" secondAttribute="centerX" id="uGX-hk-0ln"/>
@@ -334,13 +369,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="diE-2L-piD"/>
                     <connections>
+                        <outlet property="backButtonView" destination="U1D-zK-jT5" id="SdP-y0-4RR"/>
                         <outlet property="getWeatherButton" destination="nhK-dz-aKc" id="sJn-A3-8Lu"/>
                         <outlet property="mapView" destination="ZeI-cY-9dg" id="jio-0t-vnq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2768" y="818"/>
+            <point key="canvasLocation" x="2766.666666666667" y="817.63392857142856"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="2nQ-3F-GRe">
@@ -355,18 +391,18 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexColor" name="Black"/>
+                                <color key="sectionIndexBackgroundColor" name="White"/>
+                                <color key="sectionIndexTrackingBackgroundColor" name="Black"/>
                                 <sections/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vug-fT-d3z">
                                 <rect key="frame" x="50" y="52" width="314" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="White"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="BMw-FE-4Hg"/>
                                 </constraints>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="Black"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -397,7 +433,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hAQ-J0-UGM"/>
-                        <color key="backgroundColor" red="0.35294117650000001" green="0.62352941179999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="DarkBlue"/>
                         <constraints>
                             <constraint firstItem="hAQ-J0-UGM" firstAttribute="trailing" secondItem="vug-fT-d3z" secondAttribute="trailing" constant="50" id="3Xt-tx-o58"/>
                             <constraint firstItem="WGA-dz-KnR" firstAttribute="top" secondItem="hAQ-J0-UGM" secondAttribute="top" constant="5" id="6y6-Pd-QTT"/>
@@ -425,7 +461,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="9Rc-6s-aCI"/>
+        <segue reference="XR7-e8-T6v"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_back" width="12" height="21"/>
@@ -437,5 +473,17 @@
         <image name="ic_white_day_thunder" width="36" height="36"/>
         <image name="ic_wind" width="17" height="19"/>
         <image name="icon_wind_e" width="34" height="34"/>
+        <namedColor name="Black">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="DarkBlue">
+            <color red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="LightBlue">
+            <color red="0.3529411764705882" green="0.62352941176470589" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

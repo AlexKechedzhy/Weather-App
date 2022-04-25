@@ -3,53 +3,67 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dailyTableViewCell" rowHeight="55" id="KGk-i7-Jjw" customClass="DailyWeatherTableViewCell" customModule="Weather_Test_Task" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="dailyTableViewCell" rowHeight="55" id="KGk-i7-Jjw" customClass="DailyWeatherTableViewCell" customModule="Weather_Test_Task" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Hq-NF-wIe">
-                        <rect key="frame" x="20" y="27.5" width="0.0" height="0.0"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9y-yy-mXF">
-                        <rect key="frame" x="160" y="27.5" width="0.0" height="0.0"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sGx-j2-1vU">
-                        <rect key="frame" x="262" y="7.5" width="40" height="40"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pn9-o3-tD6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Hq-NF-wIe">
+                                <rect key="frame" x="20" y="27.5" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" name="Black"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9y-yy-mXF">
+                                <rect key="frame" x="160" y="27.5" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" name="Black"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sGx-j2-1vU">
+                                <rect key="frame" x="260" y="7.5" width="40" height="40"/>
+                                <color key="backgroundColor" name="White"/>
+                                <color key="tintColor" name="Black"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="pl3-q6-3Lq"/>
+                                    <constraint firstAttribute="height" constant="40" id="vK0-I0-A3N"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" name="White"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="pl3-q6-3Lq"/>
-                            <constraint firstAttribute="height" constant="40" id="vK0-I0-A3N"/>
+                            <constraint firstItem="5Hq-NF-wIe" firstAttribute="leading" secondItem="pn9-o3-tD6" secondAttribute="leading" constant="20" id="3PX-t2-TkY"/>
+                            <constraint firstAttribute="trailing" secondItem="sGx-j2-1vU" secondAttribute="trailing" constant="20" id="51q-8R-oOZ"/>
+                            <constraint firstItem="sGx-j2-1vU" firstAttribute="centerY" secondItem="pn9-o3-tD6" secondAttribute="centerY" id="IOO-PS-byF"/>
+                            <constraint firstItem="b9y-yy-mXF" firstAttribute="centerX" secondItem="pn9-o3-tD6" secondAttribute="centerX" id="Myu-Jy-PIU"/>
+                            <constraint firstItem="b9y-yy-mXF" firstAttribute="centerY" secondItem="pn9-o3-tD6" secondAttribute="centerY" id="oky-vZ-bdj"/>
+                            <constraint firstItem="5Hq-NF-wIe" firstAttribute="centerY" secondItem="pn9-o3-tD6" secondAttribute="centerY" id="u9O-fe-PSc"/>
                         </constraints>
-                    </imageView>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="5Hq-NF-wIe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6mI-En-oMO"/>
-                    <constraint firstAttribute="trailing" secondItem="sGx-j2-1vU" secondAttribute="trailing" constant="18" id="BZM-pz-gDN"/>
-                    <constraint firstItem="5Hq-NF-wIe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="F7x-4M-pEu"/>
-                    <constraint firstItem="sGx-j2-1vU" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Kdc-zW-cLL"/>
-                    <constraint firstItem="b9y-yy-mXF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dDj-qS-i1q"/>
-                    <constraint firstItem="b9y-yy-mXF" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="vWE-gV-Gia"/>
+                    <constraint firstAttribute="trailing" secondItem="pn9-o3-tD6" secondAttribute="trailing" id="CCd-TV-7Xt"/>
+                    <constraint firstAttribute="bottom" secondItem="pn9-o3-tD6" secondAttribute="bottom" id="XDf-mh-lLv"/>
+                    <constraint firstItem="pn9-o3-tD6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="crS-BA-5yh"/>
+                    <constraint firstItem="pn9-o3-tD6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="dw1-BH-eBx"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="backView" destination="pn9-o3-tD6" id="Cch-SN-q8Q"/>
                 <outlet property="dayLabel" destination="5Hq-NF-wIe" id="ZKm-XA-Ecc"/>
                 <outlet property="temperatureLabel" destination="b9y-yy-mXF" id="Iid-C4-1FF"/>
                 <outlet property="weatherImage" destination="sGx-j2-1vU" id="QXg-XR-riI"/>
@@ -57,4 +71,12 @@
             <point key="canvasLocation" x="137.68115942028987" y="69.308035714285708"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <namedColor name="Black">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

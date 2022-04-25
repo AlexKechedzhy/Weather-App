@@ -100,14 +100,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.register(UINib(nibName: "SuggestionTableViewCell", bundle: nil), forCellReuseIdentifier: "suggestionCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.delegate = self
-        tableView.dataSource = self
     }
 }
 
 extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder() 
+        textField.resignFirstResponder()
         return true
     }
 }
