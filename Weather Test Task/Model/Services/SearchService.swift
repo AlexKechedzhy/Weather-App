@@ -9,12 +9,14 @@ import Foundation
 import Combine
 
 class SearchService {
-    let APIKey = "32514940-c245-11ec-ad6a-3fa3ee009ece"
-    let baseURL = "https://app.geocodeapi.io/api/v1/autocomplete?"
+    
+    enum Constants: String {
+        case APIKey = "32514940-c245-11ec-ad6a-3fa3ee009ece"
+        case baseURL = "https://app.geocodeapi.io/api/v1/autocomplete?"
+    }
     
     func fetchData(text: String) -> AnyPublisher<SearchData, Error> {
-        print("Fetch Data method got called!!!!!")
-        guard let url = URL(string: "\(baseURL)apikey=\(APIKey)&text=\(text)&size=10#") else {
+        guard let url = URL(string: "\(Constants.baseURL.rawValue)apikey=\(Constants.APIKey.rawValue)&text=\(text)&size=10#") else {
             fatalError("The URL is invalid")
         }
         print(url)

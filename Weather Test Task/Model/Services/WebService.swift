@@ -14,37 +14,47 @@ protocol WebServiceDelegate {
     func didGetCoordinates(_ location: CityData)
 }
 
+
 struct WebService {
     
     var delegate: WebServiceDelegate?
     
-    let apiKey = "144ae1233d3463be4dc6dd11edb813c8"
-    let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=alerts,minutely&units=metric"
-    let cityURL = "https://api.openweathermap.org/data/2.5/weather?"
-    let cityAPIKey = "144ae1233d3463be4dc6dd11edb813c8"
-
+    enum Constants: String {
+        case apiKey = "144ae1233d3463be4dc6dd11edb813c8"
+        case weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=alerts,minutely&units=metric"
+        case cityURL = "https://api.openweathermap.org/data/2.5/weather?"
+    }
+    
+    enum Caller {
+        case getCityName
+        case getCoordinates
+        case fetchWeather
+    }
+    
     func getCityName(latitude: Double, longitude: Double) {
-        let urlString = "\(cityURL)lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(cityAPIKey)"
+        let urlString = "\(Constants.cityURL.rawValue)lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(Constants.apiKey.rawValue)"
         print(urlString)
-        performRequest(with: urlString, for: "getCityName")
+        performRequest(with: urlString, for: .getCityName)
     }
     
     func getCoordinates(city: String) {
-        let urlString = "\(cityURL)q=\(city)&appid=\(cityAPIKey)&units=metric"
-        performRequest(with: urlString, for: "getCoordinates")
+        let urlString = "\(Constants.cityURL.rawValue)q=\(city)&appid=\(Constants.apiKey.rawValue)&units=metric"
+        print(urlString)
+        performRequest(with: urlString, for: .getCoordinates)
     }
     
     func fetchWeather (latitude: Double, longitude: Double) {
-        let urlString = "\(weatherURL)&lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(apiKey)"
-        performRequest(with: urlString, for: "fetchWeather")
+        let urlString = "\(Constants.weatherURL.rawValue)&lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(Constants.apiKey.rawValue)"
+        print(urlString)
+        performRequest(with: urlString, for: .fetchWeather)
     }
     
-    func performRequest (with urlString: String, for caller: String) {
+    private func performRequest (with urlString: String, for caller: Caller) {
         if let url = URL (string: urlString ) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
                 switch caller {
-                case "getCityName":
+                case .getCityName:
                     if error != nil {
                         self.delegate?.didFailWithError(error: error!)
                         return
@@ -54,7 +64,7 @@ struct WebService {
                             delegate?.didGetCityName(location)
                         }
                     }
-                case "fetchWeather":
+                case .fetchWeather:
                     if error != nil {
                         self.delegate?.didFailWithError(error: error!)
                         return
@@ -64,7 +74,7 @@ struct WebService {
                             delegate?.didUpdateWeather(weather)
                         }
                     }
-                case "getCoordinates":
+                case .getCoordinates:
                     if error != nil {
                         self.delegate?.didFailWithError(error: error!)
                         return
@@ -74,14 +84,13 @@ struct WebService {
                             delegate?.didGetCoordinates(location)
                         }
                     }
-                default: return
                 }
             }
             task.resume()
         }
     }
     
-    func parseCityJSON(_ data: Data) -> CityData? {
+    private func parseCityJSON(_ data: Data) -> CityData? {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode( CityData.self, from: data)
@@ -92,7 +101,7 @@ struct WebService {
         }
     }
     
-    func parseJSON(_ data: Data) -> WeatherData? {
+    private func parseJSON(_ data: Data) -> WeatherData? {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode( WeatherData.self, from: data)

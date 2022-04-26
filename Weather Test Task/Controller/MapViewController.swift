@@ -9,15 +9,20 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapViewControllerDelegate: AnyObject {
+    func didTapGetWeatherButton(lat: Double, lon: Double)
+}
+
 class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var backButtonView: UIView!
     @IBOutlet weak var getWeatherButton: UIButton!
-    let locationManager = CLLocationManager()
-    let pin = MKPointAnnotation()
-    var selectedLatitude: Double?
-    var selectedLongitude: Double?
+    private let locationManager = CLLocationManager()
+    private let pin = MKPointAnnotation()
+    private var selectedLatitude: Double?
+    private var selectedLongitude: Double?
+    weak var delegate: MapViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,24 +57,19 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        
-        if segue.identifier == "mapToForecast" {
-            let destinationVC = segue.destination as! ForecastViewController
-            destinationVC.weatherRequestSource = .fromMapView
-            destinationVC.selectedMapLatitude = selectedLatitude
-            destinationVC.selectedMapLongitude = selectedLongitude
-        }
-    }
-    
     //MARK: - UIButton's Methods
     
     @IBAction func getWeatherButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "mapToForecast", sender: self)
+        self.navigationController?.popViewController(animated: true)
+        if let lat = selectedLatitude, let lon = selectedLongitude {
+            delegate?.didTapGetWeatherButton(lat: lat, lon: lon)
+        }
+        self.dismiss(animated: true)
     }
     
     @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "backToForecast", sender: self)
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
 }
 

@@ -8,9 +8,12 @@
 import UIKit
 import Combine
 
+protocol SearchViewControllerDelegate: AnyObject {
+    func didTapSearchToForecastButton(city: String)
+}
+
 class SearchViewController: UIViewController {
     
-
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var testLabel: UILabel!
@@ -22,7 +25,7 @@ class SearchViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    var selectedCityName: String?
+    weak var delegate: SearchViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,26 +52,18 @@ class SearchViewController: UIViewController {
             }
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        
-        if segue.identifier == "searchToForecast" {
-            let destinationVC = segue.destination as! ForecastViewController
-            destinationVC.weatherRequestSource = .fromSearchView
-            destinationVC.selectedCityName = selectedCityName
-        }
-    }
-    
 //MARK: - UIButtons' methods
     
     @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "backToForecast", sender: self)
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
     
     @IBAction func searchToForecastButtonPressed(_ sender: UIButton) {
         if let topSuggestion = citiesSuggestion?.features[0].properties.name {
-            selectedCityName = topSuggestion
-            performSegue(withIdentifier: "searchToForecast", sender: self)
+            self.navigationController?.popViewController(animated: true)
+            delegate?.didTapSearchToForecastButton(city: topSuggestion)
+            self.dismiss(animated: true)
         }
     }
 }
@@ -92,8 +87,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedCityName = citiesSuggestion?.features[indexPath.row].properties.name
-        performSegue(withIdentifier: "searchToForecast", sender: self)
+        if let selectedCityName = citiesSuggestion?.features[indexPath.row].properties.name {
+            self.navigationController?.popViewController(animated: true)
+            delegate?.didTapSearchToForecastButton(city: selectedCityName)
+            self.dismiss(animated: true)
+        }
     }
     
     private func setupTableView() {

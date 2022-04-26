@@ -10,9 +10,8 @@ import UIKit
 import CoreLocation
 import ViewAnimator
 
-enum WeatherRequestSource {
-    case byCurrentLocation, fromMapView, fromSearchView
-}
+
+
 
 class ForecastViewController: UIViewController {
     
@@ -38,15 +37,11 @@ class ForecastViewController: UIViewController {
     
     @IBOutlet weak var currentWindDirectionImage: UIImageView!
     
-    
     var webService = WebService()
-    var weatherRequestSource: WeatherRequestSource = .byCurrentLocation
+    var weatherRequestSource: WeatherRequestSource = .byCurrentLocation(lat: nil, lon: nil)
     let locationManager = CLLocationManager()
     var currentLatitude: Double?
     var currentLongitude: Double?
-    var selectedMapLatitude: Double?
-    var selectedMapLongitude: Double?
-    var selectedCityName: String?
     let rightSlideAnimation = AnimationType.from(direction: .right, offset: 100)
     let leftSlideAnimation = AnimationType.from(direction: .left, offset: 100)
     let topSlideAnimation = AnimationType.from(direction: .bottom, offset: 200)
@@ -61,6 +56,16 @@ class ForecastViewController: UIViewController {
                 self.animateViews()
             }
         }
+    }
+    
+    enum WeatherRequestSource {
+        case byCurrentLocation(lat: Double?, lon: Double?)
+        case fromMapView(lat: Double?, lon: Double?)
+        case fromSearchView(city: String?)
+    }
+    enum Segues: String {
+        case forecastToSearch = "forecastToSearch"
+        case forecastToMap = "forecastToMap"
     }
     
     override func viewDidLoad() {
@@ -81,13 +86,11 @@ class ForecastViewController: UIViewController {
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
-        case .fromMapView:
-            if let lat = selectedMapLatitude, let lon = selectedMapLongitude  {
-                getWeatherByCoordinates(lat: lat, lon: lon)
-            }
-        case .fromSearchView:
-            if let city = selectedCityName {
-                getCoordByCityName(city: city)
+        case .fromMapView(lat: let lat, lon: let lon):
+            getWeatherByCoordinates(lat: lat!, lon: lon!)
+        case .fromSearchView(city: let city):
+            if let selectedCity = city {
+                getCoordByCityName(city: selectedCity)
             }
         }
     }
@@ -99,14 +102,24 @@ class ForecastViewController: UIViewController {
         UIView.animate(views: tableView.visibleCells, animations: [rightSlideAnimation])
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Segues.forecastToMap.rawValue {
+            let destinationVC = segue.destination as? MapViewController
+            destinationVC?.delegate = self
+        } else if segue.identifier == Segues.forecastToSearch.rawValue {
+            let destinationVC = segue.destination as? SearchViewController
+            destinationVC?.delegate = self
+        }
+    }
+    
     //MARK: - UIButtons' Methods
 
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "searchViewController", sender: self)
+//        performSegue(withIdentifier: Segues.forecastToSearch.rawValue, sender: self)
     }
-    
+
     @IBAction func mapButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "mapViewController", sender: self)
+//       performSegue(withIdentifier: Segues.forecastToMap.rawValue, sender: self)
     }
 }
 
@@ -124,6 +137,7 @@ extension ForecastViewController: CLLocationManagerDelegate {
             getWeatherByCoordinates(lat: currentLatitude!, lon: currentLongitude!)
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         presentFailureAlert(title: "Oops! Failer to get your location!", message: "Please check geolocation options in Settings.")
         if locationManager.authorizationStatus == .denied {
@@ -260,7 +274,7 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
 
             cell.dayLabel.text = day
             cell.temperatureLabel.text = minMaxTemperature
-            cell.weatherImage.image = weatherImage
+            cell.weatherImage.image = weatherImage?.withTintColor(.black)
 
         }
         return cell
@@ -309,5 +323,15 @@ extension ForecastViewController {
     }
 }
 
+//MARK: - ViewControllers' Delegate Methods
+extension ForecastViewController: MapViewControllerDelegate {
+    func didTapGetWeatherButton(lat: Double, lon: Double) {
+        self.weatherRequestSource = .fromMapView(lat: lat, lon: lon)
+    }
+}
 
-
+extension ForecastViewController: SearchViewControllerDelegate {
+    func didTapSearchToForecastButton(city: String) {
+        self.weatherRequestSource = .fromSearchView(city: city)
+    }
+}

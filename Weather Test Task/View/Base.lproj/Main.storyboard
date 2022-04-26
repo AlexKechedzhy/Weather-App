@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fvc-rc-lVq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -187,7 +187,7 @@
                                         <buttonConfiguration key="configuration" style="plain" image="ic_my_location" imagePadding="0.0"/>
                                         <connections>
                                             <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zjr-Qs-u6s"/>
-                                            <segue destination="LO4-zi-AS4" kind="presentation" identifier="mapViewController" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="m6G-K1-4cv"/>
+                                            <segue destination="LO4-zi-AS4" kind="push" identifier="forecastToMap" id="EhQ-l5-OCI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="seT-Pl-0mX">
@@ -204,7 +204,7 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HpV-3q-1bU"/>
-                                            <segue destination="G8M-Jm-LuG" kind="presentation" identifier="searchViewController" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="diJ-rd-jV8"/>
+                                            <segue destination="G8M-Jm-LuG" kind="push" identifier="forecastToSearch" id="1xh-AI-oPD"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" id="htJ-oe-xAr">
@@ -309,7 +309,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2775.36231884058" y="83.705357142857139"/>
+            <point key="canvasLocation" x="2838" y="-573"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="PEA-bi-8UE">
@@ -334,7 +334,6 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Get weather"/>
                                 <connections>
                                     <action selector="getWeatherButtonPressed:" destination="LO4-zi-AS4" eventType="touchUpInside" id="Cmc-qi-WBZ"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="mapToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="BmN-n0-D7i"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U1D-zK-jT5">
@@ -346,7 +345,6 @@
                                         <buttonConfiguration key="configuration" style="plain" image="ic_back"/>
                                         <connections>
                                             <action selector="backToForecastButtonPressed:" destination="LO4-zi-AS4" eventType="touchUpInside" id="rNA-2F-1b9"/>
-                                            <segue destination="BYZ-38-t0r" kind="presentation" identifier="backToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="XR7-e8-T6v"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -383,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1832" y="84"/>
+            <point key="canvasLocation" x="3352" y="161"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="2nQ-3F-GRe">
@@ -435,7 +433,6 @@
                                 <buttonConfiguration key="configuration" style="plain" image="ic_back"/>
                                 <connections>
                                     <action selector="backToForecastButtonPressed:" destination="G8M-Jm-LuG" eventType="touchUpInside" id="ptT-4u-vhA"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="backToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Rc-6s-aCI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -459,17 +456,30 @@
                     <connections>
                         <outlet property="tableView" destination="P0R-fa-mjn" id="hPK-7B-JHa"/>
                         <outlet property="textField" destination="vug-fT-d3z" id="dsC-Vs-bVS"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="searchToForecast" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Fyi-vv-Hzw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGt-u5-CPm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3762.3188405797105" y="83.705357142857139"/>
+            <point key="canvasLocation" x="2377" y="161"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WpV-Q8-bRc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="fvc-rc-lVq" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L4j-XA-1AW">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="A9m-61-rnp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v4P-0v-hAi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1861" y="-573"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="9Rc-6s-aCI"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_back" width="12" height="21"/>
         <image name="ic_humidity" width="16" height="20"/>
