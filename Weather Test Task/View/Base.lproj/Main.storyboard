@@ -292,10 +292,17 @@
                         <outlet property="cityNameLabel" destination="htJ-oe-xAr" id="4Dx-ij-VoV"/>
                         <outlet property="collectionView" destination="Y4R-fz-jZU" id="X4p-Ah-ASn"/>
                         <outlet property="currentAverageHumidityLabel" destination="Ard-1j-7ms" id="Czl-oe-jZb"/>
+                        <outlet property="currentHumidityView" destination="0NK-om-szq" id="Se3-WN-CSP"/>
                         <outlet property="currentMinMaxTempLabel" destination="Ncn-4o-gCk" id="efP-j1-AkU"/>
+                        <outlet property="currentTempView" destination="msa-fV-qHD" id="5vp-Rd-ksB"/>
                         <outlet property="currentWeatherImage" destination="QVG-PK-LrR" id="sFW-RZ-FQO"/>
+                        <outlet property="currentWeatherView" destination="Ysg-jT-I6D" id="8c6-WO-S5U"/>
                         <outlet property="currentWindDirectionImage" destination="Hkk-94-Flf" id="yHx-B6-J7E"/>
                         <outlet property="currentWindSpeedAndDirLabel" destination="ANN-bV-41B" id="MY2-wI-Snj"/>
+                        <outlet property="currentWindView" destination="i76-XZ-Ong" id="GzP-hJ-POd"/>
+                        <outlet property="locationIconImage" destination="KEq-pw-Tt9" id="s8N-g9-bOi"/>
+                        <outlet property="mapButton" destination="Z0W-Fz-Hk3" id="uf1-cV-Mht"/>
+                        <outlet property="searchButton" destination="seT-Pl-0mX" id="dWP-ly-MGp"/>
                         <outlet property="tableView" destination="YsL-Ut-2NK" id="Jgo-8D-nok"/>
                         <outlet property="todayDateLabel" destination="IXC-Tt-kea" id="joe-V5-eQs"/>
                     </connections>
@@ -376,7 +383,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2766.666666666667" y="817.63392857142856"/>
+            <point key="canvasLocation" x="1832" y="84"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="2nQ-3F-GRe">
@@ -461,7 +468,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="XR7-e8-T6v"/>
+        <segue reference="9Rc-6s-aCI"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_back" width="12" height="21"/>
@@ -477,10 +484,10 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="DarkBlue">
-            <color red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28999999165534973" green="0.56499999761581421" blue="0.88599997758865356" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="LightBlue">
-            <color red="0.3529411764705882" green="0.62352941176470589" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.3529999852180481" green="0.62400001287460327" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

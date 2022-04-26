@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import ViewAnimator
 
 enum WeatherRequestSource {
     case byCurrentLocation, fromMapView, fromSearchView
@@ -15,15 +16,28 @@ enum WeatherRequestSource {
 
 class ForecastViewController: UIViewController {
     
+    @IBOutlet weak var currentWeatherView: UIView!
+    @IBOutlet weak var locationIconImage: UIImageView!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentWeatherImage: UIImageView!
+    
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var todayDateLabel: UILabel!
     @IBOutlet weak var currentMinMaxTempLabel: UILabel!
     @IBOutlet weak var currentAverageHumidityLabel: UILabel!
     @IBOutlet weak var currentWindSpeedAndDirLabel: UILabel!
+    
+    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var mapButton: UIButton!
+    
+    @IBOutlet weak var currentTempView: UIView!
+    @IBOutlet weak var currentHumidityView: UIView!
+    @IBOutlet weak var currentWindView: UIView!
+    
     @IBOutlet weak var currentWindDirectionImage: UIImageView!
+    
     
     var webService = WebService()
     var weatherRequestSource: WeatherRequestSource = .byCurrentLocation
@@ -33,6 +47,9 @@ class ForecastViewController: UIViewController {
     var selectedMapLatitude: Double?
     var selectedMapLongitude: Double?
     var selectedCityName: String?
+    let rightSlideAnimation = AnimationType.from(direction: .right, offset: 100)
+    let leftSlideAnimation = AnimationType.from(direction: .left, offset: 100)
+    let topSlideAnimation = AnimationType.from(direction: .bottom, offset: 200)
     
     var cityData: CityData?
     let weatherModel = WeatherModel()
@@ -41,6 +58,7 @@ class ForecastViewController: UIViewController {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 self.tableView.reloadData()
+                self.animateViews()
             }
         }
     }
@@ -72,6 +90,13 @@ class ForecastViewController: UIViewController {
                 getCoordByCityName(city: city)
             }
         }
+    }
+    
+    private func animateViews(){
+        UIView.animate(views: [cityNameLabel, locationIconImage, todayDateLabel, currentWeatherImage], animations: [leftSlideAnimation])
+        UIView.animate(views: [searchButton, mapButton, currentTempView, currentHumidityView, currentWindView], animations: [rightSlideAnimation])
+        UIView.animate(views: collectionView.subviews, animations: [rightSlideAnimation])
+        UIView.animate(views: tableView.visibleCells, animations: [rightSlideAnimation])
     }
     
     //MARK: - UIButtons' Methods
