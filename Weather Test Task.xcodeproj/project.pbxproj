@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340434302818479F0035B8B8 /* Geocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3404342F2818479F0035B8B8 /* Geocoder.swift */; };
+		34043432281ABC3E0035B8B8 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34043431281ABC3E0035B8B8 /* LoadingView.swift */; };
 		341B021B280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B0219280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.swift */; };
 		341B021C280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341B021A280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.xib */; };
-		341B021F280EC40D00DCDCF0 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B021E280EC40D00DCDCF0 /* CityData.swift */; };
 		341B022128103A4100DCDCF0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B022028103A4100DCDCF0 /* SearchViewController.swift */; };
 		341B022328103A8200DCDCF0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341B022228103A8200DCDCF0 /* MapViewController.swift */; };
 		341F093F2812DE5C003C6B46 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341F093D2812DE5C003C6B46 /* SuggestionTableViewCell.swift */; };
@@ -31,9 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3404342F2818479F0035B8B8 /* Geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoder.swift; sourceTree = "<group>"; };
+		34043431281ABC3E0035B8B8 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		341B0219280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		341B021A280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DailyWeatherTableViewCell.xib; sourceTree = "<group>"; };
-		341B021E280EC40D00DCDCF0 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
 		341B022028103A4100DCDCF0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		341B022228103A8200DCDCF0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		341F093D2812DE5C003C6B46 /* SuggestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTableViewCell.swift; sourceTree = "<group>"; };
@@ -124,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				343C417228097F63001812B9 /* WeatherData.swift */,
-				341B021E280EC40D00DCDCF0 /* CityData.swift */,
 				341F09462812EF68003C6B46 /* SearchData.swift */,
 				343C4174280D6617001812B9 /* WeatherModel.swift */,
 				343C416F28097140001812B9 /* Services */,
@@ -159,6 +160,8 @@
 			children = (
 				343C417028097150001812B9 /* Webservice.swift */,
 				341F09422812EBEA003C6B46 /* SearchService.swift */,
+				3404342F2818479F0035B8B8 /* Geocoder.swift */,
+				34043431281ABC3E0035B8B8 /* LoadingView.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -308,13 +311,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				341F09432812EBEA003C6B46 /* SearchService.swift in Sources */,
+				340434302818479F0035B8B8 /* Geocoder.swift in Sources */,
 				341B022328103A8200DCDCF0 /* MapViewController.swift in Sources */,
 				341B022128103A4100DCDCF0 /* SearchViewController.swift in Sources */,
 				341B021B280DAEBA00DCDCF0 /* DailyWeatherTableViewCell.swift in Sources */,
 				343C415B280970F9001812B9 /* ForecastViewController.swift in Sources */,
 				343C417328097F63001812B9 /* WeatherData.swift in Sources */,
-				341B021F280EC40D00DCDCF0 /* CityData.swift in Sources */,
 				343C4178280D7F84001812B9 /* HourlyWeatherCollectionViewCell.swift in Sources */,
+				34043432281ABC3E0035B8B8 /* LoadingView.swift in Sources */,
 				343C4157280970F9001812B9 /* AppDelegate.swift in Sources */,
 				341F09472812EF68003C6B46 /* SearchData.swift in Sources */,
 				343C417128097150001812B9 /* Webservice.swift in Sources */,

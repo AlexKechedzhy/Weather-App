@@ -9,15 +9,12 @@
 import UIKit
 import CoreLocation
 import ViewAnimator
-
-
-
+import Combine
+import NVActivityIndicatorView
 
 class ForecastViewController: UIViewController {
     
-    @IBOutlet weak var currentWeatherView: UIView!
     @IBOutlet weak var locationIconImage: UIImageView!
-    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentWeatherImage: UIImageView!
@@ -27,30 +24,43 @@ class ForecastViewController: UIViewController {
     @IBOutlet weak var currentMinMaxTempLabel: UILabel!
     @IBOutlet weak var currentAverageHumidityLabel: UILabel!
     @IBOutlet weak var currentWindSpeedAndDirLabel: UILabel!
+    @IBOutlet weak var currentWindDirectionImage: UIImageView!
     
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var mapButton: UIButton!
     
+    @IBOutlet weak var currentWeatherView: UIView!
     @IBOutlet weak var currentTempView: UIView!
     @IBOutlet weak var currentHumidityView: UIView!
     @IBOutlet weak var currentWindView: UIView!
     
-    @IBOutlet weak var currentWindDirectionImage: UIImageView!
+    let loadingView = LoadingView()
     
-    var webService = WebService()
-    var weatherRequestSource: WeatherRequestSource = .byCurrentLocation(lat: nil, lon: nil)
-    let locationManager = CLLocationManager()
-    var currentLatitude: Double?
-    var currentLongitude: Double?
-    let rightSlideAnimation = AnimationType.from(direction: .right, offset: 100)
-    let leftSlideAnimation = AnimationType.from(direction: .left, offset: 100)
-    let topSlideAnimation = AnimationType.from(direction: .bottom, offset: 200)
-    
-    var cityData: CityData?
-    let weatherModel = WeatherModel()
-    var weatherData: WeatherData? {
+    private var cancellable: AnyCancellable?
+    private var cancellable2: AnyCancellable?
+    private var webService = WebService()
+    private var geoCoder = Geocoder()
+    private var weatherRequestSource: WeatherRequestSource = .byCurrentLocation(lat: nil, lon: nil)
+    private let locationManager = CLLocationManager()
+    private var currentLatitude: Double?
+    private var currentLongitude: Double?
+    private var currentCityName: String? {
         didSet {
             DispatchQueue.main.async {
+                self.cityNameLabel.text = self.currentCityName
+            }
+        }
+    }
+    private let rightSlideAnimation = AnimationType.from(direction: .right, offset: 100)
+    private let leftSlideAnimation = AnimationType.from(direction: .left, offset: 100)
+    private let topSlideAnimation = AnimationType.from(direction: .bottom, offset: 200)
+    
+    private let weatherModel = WeatherModel()
+    private var weatherData: WeatherData? {
+        didSet {
+            DispatchQueue.main.async {
+                self.loadingView.hideLoadingView()
+                self.didUpdateWeather(self.weatherData!)
                 self.collectionView.reloadData()
                 self.tableView.reloadData()
                 self.animateViews()
@@ -70,27 +80,45 @@ class ForecastViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        webService.delegate = self
+        geoCoder.delegate = self
         setupCollectionView()
         setupTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        webService.delegate = self
-        chooseWeatherRequest()
+        loadingView.presentLoadingView(parentView: self.view)
+        chooseWeatherRequestSource()
     }
     
-    private func chooseWeatherRequest() {
+    private func chooseWeatherRequestSource() {
         switch weatherRequestSource {
         case .byCurrentLocation:
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
         case .fromMapView(lat: let lat, lon: let lon):
-            getWeatherByCoordinates(lat: lat!, lon: lon!)
+            if let latitude = lat, let longitude = lon {
+                convertCoordinateToCityName(lat: latitude, lon: longitude)
+                getWeatherByCoordinates(lat: latitude, lon: longitude)
+            }
         case .fromSearchView(city: let city):
             if let selectedCity = city {
-                getCoordByCityName(city: selectedCity)
+                geoCoder.getCoordinateFrom(address: selectedCity) { coordinate, error in
+                    if error != nil
+                    {
+                        self.presentFailureAlert(title: "Oops! Failed to get Weather by City Name: \(selectedCity)", message: error!.localizedDescription)
+                    } else {
+                        if let coordinate = coordinate {
+                            let lat = Double(coordinate.latitude)
+                            let lon = Double(coordinate.longitude)
+                            self.convertCoordinateToCityName(lat: lat, lon: lon)
+                            self.getWeatherByCoordinates(lat: lat, lon: lon)
+                        }
+                    }
+                    
+                }
             }
         }
     }
@@ -113,13 +141,13 @@ class ForecastViewController: UIViewController {
     }
     
     //MARK: - UIButtons' Methods
-
+    
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-//        performSegue(withIdentifier: Segues.forecastToSearch.rawValue, sender: self)
+        //        performSegue(withIdentifier: Segues.forecastToSearch.rawValue, sender: self)
     }
-
+    
     @IBAction func mapButtonPressed(_ sender: UIButton) {
-//       performSegue(withIdentifier: Segues.forecastToMap.rawValue, sender: self)
+        //       performSegue(withIdentifier: Segues.forecastToMap.rawValue, sender: self)
     }
 }
 
@@ -129,17 +157,19 @@ class ForecastViewController: UIViewController {
 extension ForecastViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location got updated")
         if let location = locations.last {
             locationManager.stopUpdatingLocation()
             currentLatitude = location.coordinate.latitude
             currentLongitude = location.coordinate.longitude
-            getWeatherByCoordinates(lat: currentLatitude!, lon: currentLongitude!)
+            if let lat = currentLatitude, let lon = currentLongitude {
+                convertCoordinateToCityName(lat: lat, lon: lon)
+                getWeatherByCoordinates(lat: lat, lon: lon)
+            }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        presentFailureAlert(title: "Oops! Failer to get your location!", message: "Please check geolocation options in Settings.")
+        presentFailureAlert(title: "Oops! Failed to get your location!", message: error.localizedDescription)
         if locationManager.authorizationStatus == .denied {
             locationManager.requestWhenInUseAuthorization()
         } else if locationManager.authorizationStatus == .restricted {
@@ -147,7 +177,7 @@ extension ForecastViewController: CLLocationManagerDelegate {
         } else if locationManager.authorizationStatus == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         }
-        print(error)
+        print(error.localizedDescription)
     }
 }
 
@@ -158,38 +188,35 @@ extension ForecastViewController: CLLocationManagerDelegate {
 extension ForecastViewController: WebServiceDelegate {
     
     
-    func didGetCoordinates(_ location: CityData) {
-        DispatchQueue.main.async {
-            self.getWeatherByCoordinates(lat: location.coord.lat, lon: location.coord.lon)
-        }
-    }
-    
-    func didGetCityName(_ location: CityData) {
-        DispatchQueue.main.async {
-            self.cityData = location
-            self.cityNameLabel.text = self.cityData?.name
-        }
-    }
-    
     func didUpdateWeather(_ weather: WeatherData) {
         
         DispatchQueue.main.async { [self] in
-            self.weatherData = weather
-            self.currentWeatherImage.image = UIImage(named: self.weatherModel.getImageSystemName(conditionId: Int((self.weatherData?.current.weather[0].id)!)))
-            let minTemp = String(Int((self.weatherData?.daily[0].temp.min)!))
-            let maxTemp = String(Int((self.weatherData?.daily[0].temp.max)!))
-            self.currentMinMaxTempLabel.text = minTemp + "° / " + maxTemp + "°"
-            self.currentAverageHumidityLabel.text = String((self.weatherData?.daily[0].humidity)!) + "%"
-            self.currentWindSpeedAndDirLabel.text = String(Int((self.weatherData?.current.wind_speed)!)) + "m/s"
-            self.currentWindDirectionImage.image = UIImage(named: self.weatherModel.getWindDirectionName(windDirection: (self.weatherData?.current.wind_deg)!))
+            //            weatherData = weather
+            if let weatherID = weatherData?.current.weather[0].id {
+                currentWeatherImage.image = UIImage(named: weatherModel.getImageSystemName(conditionId: Int(weatherID)))
+            }
+            if let minTemp = weatherData?.daily[0].temp.min, let maxTemp = weatherData?.daily[0].temp.max {
+                currentMinMaxTempLabel.text = String(Int(minTemp)) + "° / " + String(Int(maxTemp)) + "°"
+            }
+            if let humidity = weatherData?.daily[0].humidity {
+                currentAverageHumidityLabel.text = String(humidity) + "%"
+            }
+            if let windSpeed = weatherData?.current.wind_speed {
+                currentWindSpeedAndDirLabel.text = String(Int(windSpeed)) + "m/s"
+            }
+            if let windDirection = weatherData?.current.wind_deg {
+                currentWindDirectionImage.image = UIImage(named: weatherModel.getWindDirectionName(windDirection: windDirection))
+            }
             
-            let date = Date(timeIntervalSince1970: TimeInterval((weatherData?.current.dt)!))
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = DateFormatter.Style.full
-            dateFormatter.dateFormat = "E, dd MMMM"
-            dateFormatter.timeZone = .current
-            let day = dateFormatter.string(from: date)
-            todayDateLabel.text = day
+            if let dt = weatherData?.current.dt {
+                let date = Date(timeIntervalSince1970: TimeInterval(dt))
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = DateFormatter.Style.full
+                dateFormatter.dateFormat = "E, dd MMMM"
+                dateFormatter.timeZone = .current
+                let day = dateFormatter.string(from: date)
+                todayDateLabel.text = day
+            }
         }
     }
     
@@ -198,15 +225,35 @@ extension ForecastViewController: WebServiceDelegate {
         print("FAILED WITH ERROR: \(error)")
     }
     
-// MARK: - Webservice Methods
+    // MARK: - Webservice Methods
     
     private func getWeatherByCoordinates(lat: Double, lon: Double) {
-        webService.fetchWeather(latitude: lat, longitude: lon)
-        webService.getCityName(latitude: lat, longitude: lon)
+        self.cancellable = self.webService.fetchCombineWeather(latitude: lat, longitude: lon)
+            .catch { _ in Empty()}
+            .map {$0.self}
+            .sink {
+                self.weatherData = $0
+            }
     }
-    private func getCoordByCityName(city: String) {
-        webService.getCoordinates(city: city)
+    
+    private func convertCoordinateToCityName(lat: Double, lon: Double) {
+        self.geoCoder.converCoordToName(lat: lat, lon: lon)
     }
+}
+
+//MARK: - GeocoderDelegate Methods
+
+extension ForecastViewController: GeocoderDelegate {
+    func didFailWithGeocodingError(error: Error) {
+        presentFailureAlert(title: "Oops, something went wrong!", message: error.localizedDescription)
+        print("FAILED WITH ERROR: \(error)")
+    }
+    
+    func didConvertCoordinatesToName(name: String) {
+        self.currentCityName = name
+    }
+    
+    
 }
 //MARK: - CollectionView Methods
 
@@ -261,21 +308,21 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
         cell.weatherImage.tintColor = UIColor(named: "Black")
         if let _weatherData = weatherData {
             let dailyData = _weatherData.daily[indexPath.row]
-
+            
             let minMaxTemperature = String(Int(dailyData.temp.min)) + "° / " + String(Int(dailyData.temp.max)) + "°"
             let weatherImage = UIImage(named: weatherModel.getImageSystemName(conditionId: dailyData.weather[0].id))
-
+            
             let date = Date(timeIntervalSince1970: TimeInterval(dailyData.dt))
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = DateFormatter.Style.full
             dateFormatter.dateFormat = "E"
             dateFormatter.timeZone = .current
             let day = dateFormatter.string(from: date)
-
+            
             cell.dayLabel.text = day
             cell.temperatureLabel.text = minMaxTemperature
             cell.weatherImage.image = weatherImage?.withTintColor(.black)
-
+            
         }
         return cell
     }
@@ -287,9 +334,9 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
         guard let tableViewCell = tableView.cellForRow(at: indexPath) else { return }
         let cell = tableViewCell as! DailyWeatherTableViewCell
         
-        
         cell.dayLabel.textColor = UIColor(named: "LightBlue")
         cell.temperatureLabel.textColor = UIColor(named: "LightBlue")
+        cell.weatherImage.image = cell.weatherImage.image?.withRenderingMode(.alwaysTemplate)
         cell.weatherImage.tintColor = UIColor(named: "LightBlue")
         cell.backView.layer.shadowColor = UIColor.gray.cgColor
         cell.backView.layer.masksToBounds = false
@@ -316,7 +363,7 @@ extension ForecastViewController {
     private func presentFailureAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { _ in
-            self.chooseWeatherRequest()
+            self.chooseWeatherRequestSource()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -335,3 +382,45 @@ extension ForecastViewController: SearchViewControllerDelegate {
         self.weatherRequestSource = .fromSearchView(city: city)
     }
 }
+//
+//extension ForecastViewController {
+//
+//
+//
+//    private func presentLoadingView() {
+//        loadingView.backgroundColor = UIColor(named: "DarkBlue")
+//        view.addSubview(loadingView)
+//        loadingView.translatesAutoresizingMaskIntoConstraints = false
+//        let topConstraint = NSLayoutConstraint(item: loadingView,
+//                                               attribute: NSLayoutConstraint.Attribute.top,
+//                                               relatedBy: NSLayoutConstraint.Relation.equal,
+//                                               toItem: view,
+//                                               attribute: NSLayoutConstraint.Attribute.top,
+//                                               multiplier: 1, constant: 0)
+//        let bottomConstraint = NSLayoutConstraint(item: loadingView,
+//                                                  attribute: NSLayoutConstraint.Attribute.bottom,
+//                                                  relatedBy: NSLayoutConstraint.Relation.equal,
+//                                                  toItem: view,
+//                                                  attribute: NSLayoutConstraint.Attribute.bottom,
+//                                                  multiplier: 1, constant: 0)
+//        let leadingConstraint = NSLayoutConstraint(item: loadingView,
+//                                                   attribute: NSLayoutConstraint.Attribute.leading,
+//                                                   relatedBy: NSLayoutConstraint.Relation.equal,
+//                                                   toItem: view,
+//                                                   attribute: NSLayoutConstraint.Attribute.leading,
+//                                                   multiplier: 1,
+//                                                   constant: 0)
+//        let trailingConstraint = NSLayoutConstraint(item: loadingView,
+//                                                    attribute: NSLayoutConstraint.Attribute.trailing,
+//                                                    relatedBy: NSLayoutConstraint.Relation.equal,
+//                                                    toItem: view,
+//                                                    attribute: NSLayoutConstraint.Attribute.trailing,
+//                                                    multiplier: 1, constant: 0)
+//        NSLayoutConstraint.activate([topConstraint, bottomConstraint, leadingConstraint, trailingConstraint])
+//    }
+//
+//    private func hideLoadingView() {
+//        loadingView.isHidden = true
+//    }
+//
+//}

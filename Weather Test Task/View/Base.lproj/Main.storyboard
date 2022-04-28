@@ -251,7 +251,7 @@
                                     <constraint firstItem="ntj-qE-dao" firstAttribute="top" secondItem="3Li-CK-cVR" secondAttribute="bottom" id="yGY-X2-X9b"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Y4R-fz-jZU" userLabel="HourlyWeather CollectionView">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Y4R-fz-jZU" userLabel="HourlyWeather CollectionView">
                                 <rect key="frame" x="0.0" y="393.5" width="414" height="135"/>
                                 <color key="backgroundColor" name="LightBlue"/>
                                 <constraints>
@@ -324,14 +324,16 @@
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-dz-aKc">
                                 <rect key="frame" x="97" y="802" width="220" height="40"/>
-                                <color key="backgroundColor" name="DarkBlue"/>
+                                <color key="backgroundColor" name="LightBlue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="UEm-GS-Nck"/>
                                     <constraint firstAttribute="width" constant="220" id="yhn-Kb-Wdn"/>
                                 </constraints>
-                                <color key="tintColor" name="DarkBlue"/>
+                                <color key="tintColor" name="LightBlue"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Get weather"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Get weather">
+                                    <color key="baseBackgroundColor" name="DarkBlue"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="getWeatherButtonPressed:" destination="LO4-zi-AS4" eventType="touchUpInside" id="Cmc-qi-WBZ"/>
                                 </connections>

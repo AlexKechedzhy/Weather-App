@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
     
     private var searchService: SearchService = SearchService()
     private var cancellable: AnyCancellable?
-    var citiesSuggestion: SearchData? {
+    private var citiesSuggestion: SearchData? {
         didSet {
             self.tableView.reloadData()
         }
@@ -33,7 +33,6 @@ class SearchViewController: UIViewController {
         textField.delegate = self
         setupPublishers()
         setupTableView()
-        
     }
     
     private func setupPublishers() {

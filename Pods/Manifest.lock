@@ -1,16 +1,22 @@
 PODS:
+  - NVActivityIndicatorView (5.1.1):
+    - NVActivityIndicatorView/Base (= 5.1.1)
+  - NVActivityIndicatorView/Base (5.1.1)
   - ViewAnimator (3.1.0)
 
 DEPENDENCIES:
+  - NVActivityIndicatorView
   - ViewAnimator
 
 SPEC REPOS:
   trunk:
+    - NVActivityIndicatorView
     - ViewAnimator
 
 SPEC CHECKSUMS:
+  NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: 0a8d9366f5f6631d523cc130a18d2fa1b52e87e9
+PODFILE CHECKSUM: 571f352be8fc83e537630d2f7d64aba2bee8c411
 
 COCOAPODS: 1.11.2

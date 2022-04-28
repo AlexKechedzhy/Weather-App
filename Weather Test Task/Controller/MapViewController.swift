@@ -29,7 +29,6 @@ class MapViewController: UIViewController {
         prepareUI()
         setupLocationManager()
         setupGestureRecognizer()
-        
     }
     
     private func setupLocationManager() {
@@ -48,11 +47,13 @@ class MapViewController: UIViewController {
     }
     
     private func prepareUI() {
+        getWeatherButton.layer.cornerRadius = 20
+        getWeatherButton.backgroundColor = UIColor(named: "DarkBlue")
         getWeatherButton.isHidden = true
         backButtonView.layer.cornerRadius = 25
     }
     
-    func centerScreen(location: CLLocationCoordinate2D) {
+    private func centerScreen(location: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion(center: location, latitudinalMeters: 100000, longitudinalMeters: 100000)
         mapView.setRegion(region, animated: true)
     }
@@ -84,7 +85,15 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        presentFailureAlert(title: "Oops! Failed to get your location!", message: error.localizedDescription)
+        if locationManager.authorizationStatus == .denied {
+            locationManager.requestWhenInUseAuthorization()
+        } else if locationManager.authorizationStatus == .restricted {
+            locationManager.requestWhenInUseAuthorization()
+        } else if locationManager.authorizationStatus == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        print(error.localizedDescription)
     }
 }
 
@@ -98,5 +107,14 @@ extension MapViewController: UIGestureRecognizerDelegate {
             selectedLatitude = locationCoordinate.latitude
             selectedLongitude = locationCoordinate.longitude
         }
+    }
+}
+
+//MARK: - FailureAlert Methods
+extension MapViewController {
+    private func presentFailureAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
