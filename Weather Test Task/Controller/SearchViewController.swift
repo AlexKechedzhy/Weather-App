@@ -9,14 +9,20 @@ import UIKit
 import Combine
 
 protocol SearchViewControllerDelegate: AnyObject {
-    func didTapSearchToForecastButton(city: String)
+    func didTapSearchToForecastButton(lat: Double, lon: Double, name: String)
 }
 
 class SearchViewController: UIViewController {
     
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var testLabel: UILabel!
+    private enum Constants {
+        static let forecastToSearch = "forecastToSearch"
+        static let forecastToMap = "forecastToMap"
+        static let tableViewCellReuseIdentifier = "suggestionCell"
+        static let tableViewCellnib = "SuggestionTableViewCell"
+    }
+    
+    @IBOutlet private weak var textField: UITextField!
+    @IBOutlet private weak var tableView: UITableView!
     
     private var searchService: SearchService = SearchService()
     private var cancellable: AnyCancellable?
@@ -51,22 +57,21 @@ class SearchViewController: UIViewController {
             }
     }
     
-//MARK: - UIButtons' methods
+    //MARK: - UIButtons' methods
     
-    @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
+    @IBAction private func backToForecastButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true)
     }
     
-    @IBAction func searchToForecastButtonPressed(_ sender: UIButton) {
-        if let topSuggestion = citiesSuggestion?.features[0].properties.name {
+    @IBAction private func searchToForecastButtonPressed(_ sender: UIButton) {
+        if let lat = citiesSuggestion?.features[0].geometry.coordinates[1],
+           let lon = citiesSuggestion?.features[0].geometry.coordinates[0],
+           let name = citiesSuggestion?.features[0].properties.name {
             self.navigationController?.popViewController(animated: true)
-            delegate?.didTapSearchToForecastButton(city: topSuggestion)
-            self.dismiss(animated: true)
+            delegate?.didTapSearchToForecastButton(lat: lat, lon: lon, name: name)
         }
     }
 }
-
 
 // MARK: - TableView Methods
 
@@ -76,7 +81,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "suggestionCell", for: indexPath) as! SuggestionTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.tableViewCellReuseIdentifier, for: indexPath) as? SuggestionTableViewCell else { return UITableViewCell() }
         if let properties = citiesSuggestion?.features[indexPath.row].properties {
             let city = properties.name
             let country = properties.country
@@ -86,15 +91,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedCityName = citiesSuggestion?.features[indexPath.row].properties.name {
+        if let lat = citiesSuggestion?.features[indexPath.row].geometry.coordinates[1],
+           let lon = citiesSuggestion?.features[indexPath.row].geometry.coordinates[0],
+           let name = citiesSuggestion?.features[indexPath.row].properties.name {
             self.navigationController?.popViewController(animated: true)
-            delegate?.didTapSearchToForecastButton(city: selectedCityName)
-            self.dismiss(animated: true)
+            delegate?.didTapSearchToForecastButton(lat: lat, lon: lon, name: name)
         }
     }
     
     private func setupTableView() {
-        tableView.register(UINib(nibName: "SuggestionTableViewCell", bundle: nil), forCellReuseIdentifier: "suggestionCell")
+        tableView.register(UINib(nibName: Constants.tableViewCellnib, bundle: nil), forCellReuseIdentifier: Constants.tableViewCellReuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
     }

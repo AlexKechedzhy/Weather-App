@@ -10,28 +10,28 @@ import CoreLocation
 
 protocol GeocoderDelegate {
     func didConvertCoordinatesToName(name: String)
-    func didFailWithGeocodingError(error: Error)
+    func didFailWithGeocodingError(error: Error?)
 }
 
 class Geocoder {
     
     var delegate: GeocoderDelegate?
     
-    func getCoordinateFrom(address: String, completion: @escaping(_ coordinate: CLLocationCoordinate2D?, _ error: Error?) -> () ) {
-        CLGeocoder().geocodeAddressString(address) { completion($0?.first?.location?.coordinate, $1) }
-    }
-    
     func converCoordToName(lat: Double, lon: Double)  {
         let location = CLLocation(latitude: lat, longitude: lon)
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if error != nil {
-                self.delegate?.didFailWithGeocodingError(error: error!)
+                self.delegate?.didFailWithGeocodingError(error: error)
             } else {
-                if let pm = placemarks {
-                    if let name = pm.first?.locality {
-                        self.delegate?.didConvertCoordinatesToName(name: name)
-                    }
+                guard let pm = placemarks else {
+                    self.delegate?.didFailWithGeocodingError(error: error)
+                    return
                 }
+                guard let name = pm.first?.locality else {
+                    self.delegate?.didFailWithGeocodingError(error: error)
+                    return
+                }
+                self.delegate?.didConvertCoordinatesToName(name: name)
             }
         }
     }

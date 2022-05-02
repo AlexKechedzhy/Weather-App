@@ -11,7 +11,7 @@ import Combine
 
 protocol WebServiceDelegate {
     func didUpdateWeather(_ weather: WeatherData)
-    func didFailWithError(error: Error)
+    func didFailWithError(error: Error?)
 }
 
 
@@ -19,15 +19,19 @@ struct WebService {
     
     var delegate: WebServiceDelegate?
     
-    enum Constants: String {
-        case apiKey = "144ae1233d3463be4dc6dd11edb813c8"
-        case weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=alerts,minutely&units=metric"
-        case cityURL = "https://api.openweathermap.org/data/2.5/weather?"
+    private enum Constants {
+        static let apiKey = "144ae1233d3463be4dc6dd11edb813c8"
+        static let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=alerts,minutely&units=metric"
+        static let andLat = "&lat="
+        static let andLon = "&lon="
+        static let andAppID = "&appid="
+        static let doubleFormat = "%.3f"
     }
     
     func fetchCombineWeather(latitude: Double, longitude: Double) -> AnyPublisher<WeatherData, Error> {
-        guard let url = URL(string: "\(Constants.weatherURL.rawValue)&lat=\(String(format:"%.3f", latitude))&lon=\(String(format:"%.3f", longitude))&appid=\(Constants.apiKey.rawValue)") else {
-            fatalError()
+        guard let url = URL(string: "\(Constants.weatherURL)\(Constants.andLat)\(String(format:Constants.doubleFormat, latitude))\(Constants.andLon)\(String(format: Constants.doubleFormat, longitude))\(Constants.andAppID)\(Constants.apiKey)") else {
+            delegate?.didFailWithError(error: nil)
+            fatalError("The URL is invalid")
         }
         return URLSession.shared.dataTaskPublisher(for: url)
             .map {$0.data}

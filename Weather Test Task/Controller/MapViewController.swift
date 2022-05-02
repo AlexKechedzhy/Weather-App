@@ -15,9 +15,20 @@ protocol MapViewControllerDelegate: AnyObject {
 
 class MapViewController: UIViewController {
     
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var backButtonView: UIView!
-    @IBOutlet weak var getWeatherButton: UIButton!
+    private enum Constants {
+        static let uiAlertActionTitleOK = "OK"
+        static let uiAlertActionTitleOpenSetting = "Open Settings"
+        static let uiAlertActionTitleCancel = "Cancel"
+        static let alertSomethingWentWrongTitle = "Oops! Failed to get your location!"
+        static let alertGoToSettingsTitle = "Seems like your location is disabled"
+        static let alertGoToSettingsMessage = "Please allow Weather app to use your location via Settings"
+        static let regionLatitudinalMeters = 100000
+        static let regionLongitudinalMeters = 100000
+    }
+    
+    @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var backButtonView: UIView!
+    @IBOutlet private weak var getWeatherButton: UIButton!
     private let locationManager = CLLocationManager()
     private let pin = MKPointAnnotation()
     private var selectedLatitude: Double?
@@ -48,7 +59,7 @@ class MapViewController: UIViewController {
     
     private func prepareUI() {
         getWeatherButton.layer.cornerRadius = 20
-        getWeatherButton.backgroundColor = UIColor(named: "DarkBlue")
+        getWeatherButton.backgroundColor = UIColor.darkBlue
         getWeatherButton.isHidden = true
         backButtonView.layer.cornerRadius = 25
     }
@@ -65,12 +76,10 @@ class MapViewController: UIViewController {
         if let lat = selectedLatitude, let lon = selectedLongitude {
             delegate?.didTapGetWeatherButton(lat: lat, lon: lon)
         }
-        self.dismiss(animated: true)
     }
     
     @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true)
     }
 }
 
@@ -85,15 +94,12 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        presentFailureAlert(title: "Oops! Failed to get your location!", message: error.localizedDescription)
-        if locationManager.authorizationStatus == .denied {
-            locationManager.requestWhenInUseAuthorization()
-        } else if locationManager.authorizationStatus == .restricted {
-            locationManager.requestWhenInUseAuthorization()
-        } else if locationManager.authorizationStatus == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
+        if UserDefaultsModel.highResolutionPlanets == false {
+            UserDefaultsModel.highResolutionPlanets = true
+            presentGoToSettingsAlert(title: Constants.alertGoToSettingsTitle, message: Constants.alertGoToSettingsMessage)
+        } else {
+            presentFailureAlert(title: Constants.alertSomethingWentWrongTitle, message: error.localizedDescription)
         }
-        print(error.localizedDescription)
     }
 }
 
@@ -111,10 +117,27 @@ extension MapViewController: UIGestureRecognizerDelegate {
 }
 
 //MARK: - FailureAlert Methods
+
 extension MapViewController {
     private func presentFailureAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleOK, style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentGoToSettingsAlert(title: String, message: String)  {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleOpenSetting, style: UIAlertAction.Style.default, handler: { _ in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { _ in
+                    self.locationManager.requestLocation() // This line requres update. I need to request location when the app resigns active.
+                })
+            }
+        }))
+        alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleCancel, style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }
