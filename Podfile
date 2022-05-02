@@ -8,6 +8,6 @@ target 'Weather Test Task' do
   # Pods for Weather Test Task
 
 	pod "ViewAnimator"
-  	pod 'NVActivityIndicatorView'
+  pod 'NVActivityIndicatorView'
 
 end

@@ -9,5 +9,5 @@ import Foundation
 
 class UserDefaultsModel {
     @UserDefaultsWrapper(key: "locationAlertHasBeenPresented", defaultValue: false)
-    static var highResolutionPlanets: Bool
+    static var locationAlertHasBeenPresented: Bool
 }

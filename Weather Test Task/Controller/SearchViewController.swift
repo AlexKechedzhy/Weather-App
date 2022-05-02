@@ -10,6 +10,7 @@ import Combine
 
 protocol SearchViewControllerDelegate: AnyObject {
     func didTapSearchToForecastButton(lat: Double, lon: Double, name: String)
+    func didTapReturnButtonSearchVC()
 }
 
 class SearchViewController: UIViewController {
@@ -61,6 +62,7 @@ class SearchViewController: UIViewController {
     
     @IBAction private func backToForecastButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+        delegate?.didTapReturnButtonSearchVC()
     }
     
     @IBAction private func searchToForecastButtonPressed(_ sender: UIButton) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pn9-o3-tD6">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pn9-o3-tD6" customClass="DailyWheatherCellBackView" customModule="Weather_Test_Task">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Hq-NF-wIe">
@@ -43,6 +43,7 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" name="White"/>
+                        <color key="tintColor" name="White"/>
                         <constraints>
                             <constraint firstItem="5Hq-NF-wIe" firstAttribute="leading" secondItem="pn9-o3-tD6" secondAttribute="leading" constant="20" id="3PX-t2-TkY"/>
                             <constraint firstAttribute="trailing" secondItem="sGx-j2-1vU" secondAttribute="trailing" constant="20" id="51q-8R-oOZ"/>
@@ -53,7 +54,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" name="White"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="pn9-o3-tD6" secondAttribute="trailing" id="CCd-TV-7Xt"/>
                     <constraint firstAttribute="bottom" secondItem="pn9-o3-tD6" secondAttribute="bottom" id="XDf-mh-lLv"/>
@@ -62,8 +63,9 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" name="White"/>
             <connections>
-                <outlet property="backView" destination="pn9-o3-tD6" id="Cch-SN-q8Q"/>
+                <outlet property="backView" destination="pn9-o3-tD6" id="uSk-LZ-LeV"/>
                 <outlet property="dayLabel" destination="5Hq-NF-wIe" id="ZKm-XA-Ecc"/>
                 <outlet property="temperatureLabel" destination="b9y-yy-mXF" id="Iid-C4-1FF"/>
                 <outlet property="weatherImage" destination="sGx-j2-1vU" id="QXg-XR-riI"/>

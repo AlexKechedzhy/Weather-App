@@ -11,6 +11,7 @@ import CoreLocation
 
 protocol MapViewControllerDelegate: AnyObject {
     func didTapGetWeatherButton(lat: Double, lon: Double)
+    func didTapReturnButtonMapVC()
 }
 
 class MapViewController: UIViewController {
@@ -79,6 +80,7 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func backToForecastButtonPressed(_ sender: UIButton) {
+        delegate?.didTapReturnButtonMapVC()
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -94,11 +96,11 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        if UserDefaultsModel.highResolutionPlanets == false {
-            UserDefaultsModel.highResolutionPlanets = true
+        if UserDefaultsModel.locationAlertHasBeenPresented == false {
+            UserDefaultsModel.locationAlertHasBeenPresented = true
             presentGoToSettingsAlert(title: Constants.alertGoToSettingsTitle, message: Constants.alertGoToSettingsMessage)
         } else {
-            presentFailureAlert(title: Constants.alertSomethingWentWrongTitle, message: error.localizedDescription)
+            return
         }
     }
 }
@@ -132,9 +134,7 @@ extension MapViewController {
                 return
             }
             if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { _ in
-                    self.locationManager.requestLocation() // This line requres update. I need to request location when the app resigns active.
-                })
+                UIApplication.shared.open(settingsUrl, completionHandler: nil)
             }
         }))
         alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleCancel, style: UIAlertAction.Style.default, handler: nil))

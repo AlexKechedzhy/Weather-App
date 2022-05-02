@@ -8,12 +8,10 @@
 import Foundation
 import Combine
 
-
 protocol WebServiceDelegate {
     func didUpdateWeather(_ weather: WeatherData)
     func didFailWithError(error: Error?)
 }
-
 
 struct WebService {
     
@@ -31,7 +29,7 @@ struct WebService {
     func fetchCombineWeather(latitude: Double, longitude: Double) -> AnyPublisher<WeatherData, Error> {
         guard let url = URL(string: "\(Constants.weatherURL)\(Constants.andLat)\(String(format:Constants.doubleFormat, latitude))\(Constants.andLon)\(String(format: Constants.doubleFormat, longitude))\(Constants.andAppID)\(Constants.apiKey)") else {
             delegate?.didFailWithError(error: nil)
-            fatalError("The URL is invalid")
+            return Empty().eraseToAnyPublisher()
         }
         return URLSession.shared.dataTaskPublisher(for: url)
             .map {$0.data}

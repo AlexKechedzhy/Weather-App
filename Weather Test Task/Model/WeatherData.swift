@@ -10,7 +10,7 @@ import Foundation
 struct WeatherData: Codable {
     let current: Current
     let hourly: [Hourly]
-    let daily: [Daily]
+    var daily: [Daily]
 }
 
 struct Current: Codable {
@@ -33,6 +33,7 @@ struct Daily: Codable {
     let temp: Temp
     let humidity: Int
     let weather: [Weather]
+    var isSelected: Bool? = false
 }
 
 struct Temp: Codable {

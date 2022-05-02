@@ -318,10 +318,11 @@
             </objects>
             <point key="canvasLocation" x="2837.68115942029" y="-573.21428571428567"/>
         </scene>
-        <!--Map View Controller-->
+        <!--MapViewController-->
         <scene sceneID="PEA-bi-8UE">
             <objects>
-                <viewController id="LO4-zi-AS4" customClass="MapViewController" customModule="Weather_Test_Task" customModuleProvider="target" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController title="MapViewController" id="LO4-zi-AS4" customClass="MapViewController" customModule="Weather_Test_Task" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ghg-xI-McD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -388,7 +389,6 @@
                         <outlet property="mapView" destination="ZeI-cY-9dg" id="jio-0t-vnq"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UkN-cd-8z8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3352" y="161"/>
         </scene>

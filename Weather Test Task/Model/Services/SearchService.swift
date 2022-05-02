@@ -20,7 +20,7 @@ class SearchService {
     
     func fetchData(text: String) -> AnyPublisher<SearchData, Error> {
         guard let url = URL(string: "\(Constants.baseURL)\(Constants.andApiKey)\(Constants.APIKey)\(Constants.andText)\(text)\(Constants.andSize)") else {
-            fatalError("The URL is invalid")
+            return Empty().eraseToAnyPublisher()
         }
         print(url)
         return URLSession.shared.dataTaskPublisher(for: url)

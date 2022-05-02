@@ -19,6 +19,7 @@ class ForecastViewController: UIViewController {
         static let forecastToMap = "forecastToMap"
         static let uiAlertActionTitleRetry = "Retry"
         static let uiAlertActionTitleCancel = "Cancel"
+        static let uiAlertActionTitleUseWithoutLocation = "Use without location"
         static let uiAlertActionTitleOpenSettings = "Open Settings"
         static let alertFailedToGetLocationTitle = "Oops! Failed to get your location!"
         static let alertFailedToGetWeatherByCityTitle = "Oops! Failed to get Weather by City Name: "
@@ -65,6 +66,7 @@ class ForecastViewController: UIViewController {
     private var geoCoder = Geocoder()
     private var weatherRequestSource: WeatherRequestSource = .byCurrentLocation(lat: nil, lon: nil)
     private let locationManager = CLLocationManager()
+    private var tableViewSelectedCell: Int?
     private var currentLatitude: Double?
     private var currentLongitude: Double?
     private var currentCityName: String? {
@@ -80,17 +82,7 @@ class ForecastViewController: UIViewController {
     private let topSlideAnimation = AnimationType.from(direction: .bottom, offset: 200)
     
     private let weatherModel = WeatherModel()
-    private var weatherData: WeatherData? {
-        didSet {
-            DispatchQueue.main.async {
-                self.loadingView.hideLoadingView()
-                self.didUpdateWeather(self.weatherData!)
-                self.collectionView.reloadData()
-                self.tableView.reloadData()
-                self.animateViews()
-            }
-        }
-    }
+    private var weatherData: WeatherData?
     
     private enum WeatherRequestSource {
         case byCurrentLocation(lat: Double?, lon: Double?)
@@ -191,9 +183,9 @@ extension ForecastViewController: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
         case .denied, .restricted:
-            presentGoToSettingsAlert(title: Constants.alertFailedToGetLocationTitle, message: error.localizedDescription)
+            presentGoToSettingsAlert(title: Constants.alertFailedToGetLocationTitle, message: Constants.alertFailedToGetLocationMessage)
         case .authorizedAlways, .authorizedWhenInUse:
-            presentGoToSettingsAlert(title: Constants.alertFailedToGetLocationTitle, message: error.localizedDescription)
+            presentGoToSettingsAlert(title: Constants.alertFailedToGetLocationTitle, message: Constants.alertFailedToGetLocationMessage)
         @unknown default:
             break
         }
@@ -250,8 +242,15 @@ extension ForecastViewController: WebServiceDelegate {
         self.cancellable = self.webService.fetchCombineWeather(latitude: lat, longitude: lon)
             .catch { _ in Empty()}
             .map {$0.self}
-            .sink {
-                self.weatherData = $0
+            .sink { [weak self] weatherData in
+                self?.weatherData = weatherData
+                DispatchQueue.main.async {
+                    self?.loadingView.hideLoadingView()
+                    self?.didUpdateWeather(weatherData)
+                    self?.collectionView.reloadData()
+                    self?.tableView.reloadData()
+                    self?.animateViews()
+                }
             }
     }
     
@@ -319,10 +318,6 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.tableViewCellReuseIdentifier, for: indexPath) as? DailyWeatherTableViewCell else { return UITableViewCell() }
-        cell.dayLabel.textColor = UIColor.black
-        cell.temperatureLabel.textColor = UIColor.black
-        cell.weatherImage.tintColor = UIColor.black
-        cell.layer.shadowColor = UIColor.clear.cgColor
         if let _weatherData = weatherData {
             let dailyData = _weatherData.daily[indexPath.row]
             
@@ -339,29 +334,45 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
             cell.dayLabel.text = day
             cell.temperatureLabel.text = minMaxTemperature
             cell.weatherImage.image = weatherImage?.withTintColor(UIColor.black!)
-            
+            cell.setSelected(dailyData.isSelected ?? false, animated: true)
         }
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.reloadData()
-        tableView.deselectAllRows(animated: true)
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? DailyWeatherTableViewCell else { return }
+        cell.setSelected(false, animated: true)
         
+        for (index, _) in (weatherData?.daily ?? []).enumerated() {
+            weatherData?.daily[index].isSelected = false
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? DailyWeatherTableViewCell else { return }
+        cell.setSelected(true, animated: true)
+        
+        for (index, _) in (weatherData?.daily ?? []).enumerated() {
+            weatherData?.daily[index].isSelected = false
+        }
+        
+        guard weatherData?.daily[safe: indexPath.row] != nil else { return }
+        weatherData?.daily[indexPath.row].isSelected = true
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if let _weatherData = weatherData {
+            let dailyData = _weatherData.daily[indexPath.row]
+            cell.setSelected(dailyData.isSelected ?? false, animated: true)
+        }
         guard let cell = tableView.cellForRow(at: indexPath) as? DailyWeatherTableViewCell else { return }
         
-        cell.dayLabel.textColor = UIColor.lightBlue
-        cell.temperatureLabel.textColor = UIColor.lightBlue
-        cell.weatherImage.image = cell.weatherImage.image?.withRenderingMode(.alwaysTemplate)
-        cell.weatherImage.tintColor = UIColor.lightBlue
-        cell.clipsToBounds = false
-        cell.contentView.clipsToBounds = false
-        cell.backView.addShadow(
-            color: UIColor.lightBlue?.cgColor ?? UIColor.blue.cgColor,
-            opacity: 0.5,
-            radius: 10,
-            offset: (0.0, 0.0)
-        )
+        if let _weatherData = weatherData {
+            let dailyData = _weatherData.daily[indexPath.row]
+            cell.contentView.layer.masksToBounds = true
+            cell.setSelected(dailyData.isSelected ?? false, animated: true)
+        }
     }
     
     private func setupTableView() {
@@ -377,7 +388,14 @@ extension ForecastViewController {
     private func presentFailureAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleRetry, style: UIAlertAction.Style.default, handler: { _ in
-            self.chooseWeatherRequestSource()
+            switch self.weatherRequestSource {
+            case .byCurrentLocation:
+                self.locationManager.requestLocation()
+            case .fromMapView:
+                self.performSegue(withIdentifier: Constants.forecastToMap, sender: self)
+            case .fromSearchView:
+                self.performSegue(withIdentifier: Constants.forecastToSearch, sender: self)
+            }
         }))
         alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleCancel, style: UIAlertAction.Style.default, handler: { _ in
             self.getWeatherByCoordinates(lat: Constants.defaultLatitude, lon: Constants.defaultLongitude )
@@ -394,28 +412,38 @@ extension ForecastViewController {
             }
             if UIApplication.shared.canOpenURL(settingsUrl) {
                 UIApplication.shared.open(settingsUrl, completionHandler: { _ in
-                    self.locationManager.requestLocation() // This line requres update. I need to request location when the app resigns active.
+                    self.chooseWeatherRequestSource()
                 })
             }
         }))
-        alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleCancel, style: UIAlertAction.Style.default, handler: { _ in
+        alert.addAction(UIAlertAction(title: Constants.uiAlertActionTitleUseWithoutLocation, style: UIAlertAction.Style.default, handler: { _ in
             self.getWeatherByCoordinates(lat: Constants.defaultLatitude, lon: Constants.defaultLongitude )
             self.convertCoordinateToCityName(lat: Constants.defaultLatitude, lon: Constants.defaultLongitude)
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
 }
 
 //MARK: - ViewControllers' Delegate Methods
 extension ForecastViewController: MapViewControllerDelegate {
+    func didTapReturnButtonMapVC() {
+        self.weatherRequestSource = .byCurrentLocation(lat: currentLatitude, lon: currentLongitude)
+    }
+    
     func didTapGetWeatherButton(lat: Double, lon: Double) {
         self.weatherRequestSource = .fromMapView(lat: lat, lon: lon)
     }
 }
 
 extension ForecastViewController: SearchViewControllerDelegate {
+    func didTapReturnButtonSearchVC() {
+        self.weatherRequestSource = .byCurrentLocation(lat: currentLatitude, lon: currentLongitude)
+    }
+    
     func didTapSearchToForecastButton(lat: Double, lon: Double, name: String) {
         self.weatherRequestSource = .fromSearchView(lat: lat, lon: lon, name: name)
     }
     
 }
+
